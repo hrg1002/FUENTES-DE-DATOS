@@ -1,0 +1,6 @@
+---
+title: "Seminario"
+author: "Henar Ronda,Yasmina Álamo y Raúl Ortega"
+date: "`r Sys.Date()`"
+output: html_document
+---
