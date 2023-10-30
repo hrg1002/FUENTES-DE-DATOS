@@ -1,6 +1,23 @@
 ---
-title: "Seminario"
-author: "Henar Ronda,Yasmina Álamo y Raúl Ortega"
-date: "`r Sys.Date()`"
-output: html_document
+title: "Seminario: Horas de luz y alcoholismo vs depresión" 
+author: "Henar Ronda, Yasmina Álamo y Raúl Ortega"
+date: "`r format (Sys.time(),'%d%B%Y')`r"
+output: 
+  html_document:
+    toc: TRUE
+  pdf_document:
+      keep_text: TRUE
 ---
+  
+  Este es el seminario que hemos realizado para analizar a través de distintos datos obtenidos
+  cómo afecta la cantidad de horas de luz a lo largo del año y el consumo de alcohol con la 
+  salud mental, en este caso la depresión
+  
+  El estudio ha sido enfocado a nivel nacional, más concretamente a nivel provincial, 
+  analizando las variables provincia por provincia, pudiendo sacar conclusione asimismo 
+  por Comunidades Autónomas, donde será más visible la diferencia de luz.
+  
+  
+library(readxl)
+Datos <- read_excel("INPUT/DATA/fuentes_de_datos.xlsx")
+
