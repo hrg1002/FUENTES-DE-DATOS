@@ -9,7 +9,8 @@ output:
       keep_text: TRUE
 ---
   
-  Este es el seminario que hemos realizado para analizar a través de distintos datos obtenidos
+# Intro
+Este es el seminario que hemos realizado para analizar a través de distintos datos obtenidos
   cómo afecta la cantidad de horas de luz a lo largo del año y el consumo de alcohol con la 
   salud mental, en este caso la depresión
   
@@ -17,7 +18,16 @@ output:
   analizando las variables provincia por provincia, pudiendo sacar conclusione asimismo 
   por Comunidades Autónomas, donde será más visible la diferencia de luz.
   
-  
+```{r, eval=FALSE}
 library(readxl)
-Datos <- read_excel("INPUT/DATA/fuentes_de_datos.xlsx")
+library (jsonlite)
+luz <- read_excel("https://facturadelaluz.com/solar/que-provincias-tienen-mas-horas-de-sol/")
+depre <- read.csv("INPUT/DATA/12010")
+salario<- fromJSON("https://servicios.ine.es/wstempus/js/es/DATOS_TABLA/13930?tip=AM&.json")"https://www.ine.es/jaxiT3/Datos.htm?t=13930"
+alcohol<-read.csv("INPUT/DATA/03107")
+
+```
+  
+  
+
 
