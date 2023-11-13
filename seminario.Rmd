@@ -14,10 +14,8 @@ Este es el seminario que hemos realizado para analizar a través de distintos da
 cómo afecta la cantidad de horas de luz a lo largo del año y el consumo de alcohol con la 
 salud mental, en este caso la depresión.
   
-El estudio ha sido enfocado a nivel nacional, más concretamente a nivel provincial, 
-analizando las variables provincia por provincia, pudiendo sacar conclusione asimismo 
-por Comunidades Autónomas, donde será más visible la diferencia de luz.
-  
+El estudio ha sido enfocado a nivel nacional, más concretamente a nivel de comunidades autónomas, 
+
 ```{r, eval=FALSE}
 library(readxl)
 library (jsonlite)
