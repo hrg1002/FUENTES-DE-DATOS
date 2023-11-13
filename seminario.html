@@ -358,26 +358,24 @@ depresión</h1>
 
 <div id="TOC">
 <ul>
-<li><a href="#intro" id="toc-intro">Intro</a></li>
+<li><a href="#introducción" id="toc-introducción">Introducción</a></li>
 </ul>
 </div>
 
-<div id="intro" class="section level1">
-<h1>Intro</h1>
+<div id="introducción" class="section level1">
+<h1>Introducción</h1>
 <p>Este es el seminario que hemos realizado para analizar a través de
 distintos datos obtenidos cómo afecta la cantidad de horas de luz a lo
 largo del año y el consumo de alcohol con la salud mental, en este caso
-la depresión</p>
+la depresión.</p>
 <p>El estudio ha sido enfocado a nivel nacional, más concretamente a
 nivel provincial, analizando las variables provincia por provincia,
 pudiendo sacar conclusione asimismo por Comunidades Autónomas, donde
 será más visible la diferencia de luz.</p>
 <pre class="r"><code>library(readxl)
 library (jsonlite)
-luz &lt;- read_excel(&quot;https://facturadelaluz.com/solar/que-provincias-tienen-mas-horas-de-sol/&quot;)
 depre &lt;- read.csv(&quot;INPUT/DATA/12010&quot;)
-salario&lt;- fromJSON(&quot;https://servicios.ine.es/wstempus/js/es/DATOS_TABLA/13930?tip=AM&amp;.json&quot;)&quot;https://www.ine.es/jaxiT3/Datos.htm?t=13930&quot;
-alcohol&lt;-read.csv(&quot;INPUT/DATA/03107&quot;)</code></pre>
+salario&lt;- fromJSON(&quot;INPUT/DATA/salario.json&quot;</code></pre>
 </div>
 
 
