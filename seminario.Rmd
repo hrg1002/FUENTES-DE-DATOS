@@ -19,6 +19,9 @@ El estudio ha sido enfocado a nivel nacional, más concretamente a nivel de comu
 ```{r, eval=FALSE}
 library(readxl)
 library (jsonlite)
+alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv", 
+    sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
+alcohol
 depre <- read.csv("INPUT/DATA/12010")
 salario<- fromJSON("INPUT/DATA/salario.json"
 
