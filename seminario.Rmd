@@ -1,20 +1,29 @@
 ---
-title: "Seminario: Horas de luz y alcoholismo vs depresión" 
+title: "<span style='color: orange ;font-family: Times New Roman, serif; font-size: 28pt; font-weight: bold; text-align: center;'>Cuadro depresivo vs: alcoholismo, salario medio y horas de luz</span>"
 author: "Henar Ronda, Yasmina Álamo y Raúl Ortega"
-date: "`r format (Sys.time(),'%d%B%Y')`r"
+date: "`r format (Sys.time(),'%d %B %Y')`"
 output: 
   html_document:
     toc: TRUE
+    css: stt.css
   pdf_document:
       keep_text: TRUE
 ---
-  
 # Introducción
-Este es el seminario que hemos realizado para analizar a través de distintos datos obtenidos
-cómo afecta la cantidad de horas de luz a lo largo del año y el consumo de alcohol con la 
-salud mental, en este caso la depresión.
-  
-El estudio ha sido enfocado a nivel nacional, más concretamente a nivel de comunidades autónomas, 
+
+
+  El estudio que nos ocupa se trata de un análisis de la Salud Mental, más concretamente del nivel de cuadro depresivo mayor total por Comunidades Autónomas para ambos sexos. Para ello hemos querido estudiar tres posibles causas que podrían relacionarse como causa-efecto: el consumo de alcohol, el salario promedio y las horas de luz al año que disfrutan los habitantes de las respectivas comunidades. 
+  Hemos estructurado el informe en tres partes principales donde compararemos la depresión con cada uno de estos factores, y finalmente una comparación global donde extraeremos las conclusiones.
+  Cabe destacar que el estudio ha sido realizado a nivel de España.
+
+
+## Depresión
+### Datos sobre la depresión
+
+## Alcoholismo
+### Datos sobre el alcoholismo:
+En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma.
+Importamos los datos mediante el siguiente código:
 
 ```{r, eval=FALSE}
 library(readxl)
@@ -27,7 +36,20 @@ salario<- fromJSON("INPUT/DATA/salario.json"
 
 
 ```
-  
-  
+### Comparación con la depresión
+
+
+
+### Análisis breve
+
+## Salario
+### Datos sobre el salario medio
+### Comparación con la depresión
+### Análisis breve
+
+## Horas de luz
+### Datos sobre horas de luz
+### Comparación con la depresión
+### Análisis breve
 
 

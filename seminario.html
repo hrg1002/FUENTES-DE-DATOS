@@ -12,7 +12,7 @@
 <meta name="author" content="Henar Ronda, Yasmina Álamo y Raúl Ortega" />
 
 
-<title>Seminario: Horas de luz y alcoholismo vs depresión</title>
+<title>Cuadro depresivo vs: alcoholismo, salario medio y horas de luz</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -253,6 +253,7 @@ if (window.hljs) {
 
 
 
+<style type="text/css">body {font-family: "Times New Roman", serif;font-size: 18px;}</style>
 
 
 
@@ -349,33 +350,114 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Seminario: Horas de luz y alcoholismo vs
-depresión</h1>
+<h1 class="title toc-ignore"><span style="color: orange ;font-family: Times New Roman, serif; font-size: 28pt; font-weight: bold; text-align: center;">Cuadro
+depresivo vs: alcoholismo, salario medio y horas de luz</span></h1>
 <h4 class="author">Henar Ronda, Yasmina Álamo y Raúl Ortega</h4>
-<h4 class="date">06noviembre2023r</h4>
+<h4 class="date">16 noviembre 2023</h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#introducción" id="toc-introducción">Introducción</a></li>
+<li><a href="#introducción" id="toc-introducción">Introducción</a>
+<ul>
+<li><a href="#depresión" id="toc-depresión">Depresión</a>
+<ul>
+<li><a href="#datos-sobre-la-depresión" id="toc-datos-sobre-la-depresión">Datos sobre la depresión</a></li>
+</ul></li>
+<li><a href="#alcoholismo" id="toc-alcoholismo">Alcoholismo</a>
+<ul>
+<li><a href="#datos-sobre-el-alcoholismo" id="toc-datos-sobre-el-alcoholismo">Datos sobre el alcoholismo:</a></li>
+<li><a href="#comparación-con-la-depresión" id="toc-comparación-con-la-depresión">Comparación con la
+depresión</a></li>
+<li><a href="#análisis-breve" id="toc-análisis-breve">Análisis
+breve</a></li>
+</ul></li>
+<li><a href="#salario" id="toc-salario">Salario</a>
+<ul>
+<li><a href="#datos-sobre-el-salario-medio" id="toc-datos-sobre-el-salario-medio">Datos sobre el salario
+medio</a></li>
+<li><a href="#comparación-con-la-depresión-1" id="toc-comparación-con-la-depresión-1">Comparación con la
+depresión</a></li>
+<li><a href="#análisis-breve-1" id="toc-análisis-breve-1">Análisis
+breve</a></li>
+</ul></li>
+<li><a href="#horas-de-luz" id="toc-horas-de-luz">Horas de luz</a>
+<ul>
+<li><a href="#datos-sobre-horas-de-luz" id="toc-datos-sobre-horas-de-luz">Datos sobre horas de luz</a></li>
+<li><a href="#comparación-con-la-depresión-2" id="toc-comparación-con-la-depresión-2">Comparación con la
+depresión</a></li>
+<li><a href="#análisis-breve-2" id="toc-análisis-breve-2">Análisis
+breve</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </div>
 
 <div id="introducción" class="section level1">
 <h1>Introducción</h1>
-<p>Este es el seminario que hemos realizado para analizar a través de
-distintos datos obtenidos cómo afecta la cantidad de horas de luz a lo
-largo del año y el consumo de alcohol con la salud mental, en este caso
-la depresión.</p>
-<p>El estudio ha sido enfocado a nivel nacional, más concretamente a
-nivel provincial, analizando las variables provincia por provincia,
-pudiendo sacar conclusione asimismo por Comunidades Autónomas, donde
-será más visible la diferencia de luz.</p>
+<p>El estudio que nos ocupa se trata de un análisis de la Salud Mental,
+más concretamente del nivel de cuadro depresivo mayor total por
+Comunidades Autónomas para ambos sexos. Para ello hemos querido estudiar
+tres posibles causas que podrían relacionarse como causa-efecto: el
+consumo de alcohol, el salario promedio y las horas de luz al año que
+disfrutan los habitantes de las respectivas comunidades. Hemos
+estructurado el informe en tres partes principales donde compararemos la
+depresión con cada uno de estos factores, y finalmente una comparación
+global donde extraeremos las conclusiones. Cabe destacar que el estudio
+ha sido realizado a nivel de España.</p>
+<div id="depresión" class="section level2">
+<h2>Depresión</h2>
+<div id="datos-sobre-la-depresión" class="section level3">
+<h3>Datos sobre la depresión</h3>
+</div>
+</div>
+<div id="alcoholismo" class="section level2">
+<h2>Alcoholismo</h2>
+<div id="datos-sobre-el-alcoholismo" class="section level3">
+<h3>Datos sobre el alcoholismo:</h3>
+<p>En primer lugar tenemos un conjunto de datos que estudian la cantidad
+de alcohol que se consume por Comunidad Autónoma. Importamos los datos
+mediante el siguiente código:</p>
 <pre class="r"><code>library(readxl)
 library (jsonlite)
+alcohol &lt;- read.csv(&quot;INPUT/DATA/ALCOHOL.csv&quot;, 
+    sep = &quot;;&quot;, fileEncoding = &quot;Latin1&quot;, header = TRUE, stringsAsFactors = FALSE)
+alcohol
 depre &lt;- read.csv(&quot;INPUT/DATA/12010&quot;)
 salario&lt;- fromJSON(&quot;INPUT/DATA/salario.json&quot;</code></pre>
+</div>
+<div id="comparación-con-la-depresión" class="section level3">
+<h3>Comparación con la depresión</h3>
+</div>
+<div id="análisis-breve" class="section level3">
+<h3>Análisis breve</h3>
+</div>
+</div>
+<div id="salario" class="section level2">
+<h2>Salario</h2>
+<div id="datos-sobre-el-salario-medio" class="section level3">
+<h3>Datos sobre el salario medio</h3>
+</div>
+<div id="comparación-con-la-depresión-1" class="section level3">
+<h3>Comparación con la depresión</h3>
+</div>
+<div id="análisis-breve-1" class="section level3">
+<h3>Análisis breve</h3>
+</div>
+</div>
+<div id="horas-de-luz" class="section level2">
+<h2>Horas de luz</h2>
+<div id="datos-sobre-horas-de-luz" class="section level3">
+<h3>Datos sobre horas de luz</h3>
+</div>
+<div id="comparación-con-la-depresión-2" class="section level3">
+<h3>Comparación con la depresión</h3>
+</div>
+<div id="análisis-breve-2" class="section level3">
+<h3>Análisis breve</h3>
+</div>
+</div>
 </div>
 
 
