@@ -19,11 +19,23 @@ output:
 
 ## Depresión
 ### Datos sobre la depresión
+A continuación se mostrarán los datos del cuadro depresivo mayor por Comunidad Autónoma. 
+Importamos la biblioteca correspondiente para poder leer el archivo csv: 
 
+```{r, eval=TRUE, echo=TRUE}
+library(readxl)
+```
+Importación de los datos a tratar: 
+
+```{r, eval=TRUE, echo=TRUE}
+depresion <- read.csv("INPUT/DATA/DEPRESION.csv", 
+    sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
+depresion
+```
 ## Alcoholismo
 ### Datos sobre el alcoholismo:
 En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma.
-Lo primero que hacemos es importat la biblioteca que nos permitirá leer el archivo csv:
+Lo primero que hacemos es importar la biblioteca que nos permitirá leer el archivo csv:
 
 ```{r, eval=TRUE, echo=TRUE}
 library(readxl)
@@ -31,10 +43,10 @@ library(readxl)
 
 Importamos los datos mediante el siguiente código:
 
-```{r, eval=FALSE, echo=TRUE}
+```{r, eval=TRUE, echo=TRUE}
 alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
-
+alcohol
 ```
 ### Comparación con la depresión
 

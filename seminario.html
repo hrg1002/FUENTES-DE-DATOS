@@ -410,6 +410,136 @@ ha sido realizado a nivel de España.</p>
 <h2>Depresión</h2>
 <div id="datos-sobre-la-depresión" class="section level3">
 <h3>Datos sobre la depresión</h3>
+<p>A continuación se mostrarán los datos del cuadro depresivo mayor por
+Comunidad Autónoma. Importamos la biblioteca correspondiente para poder
+leer el archivo csv:</p>
+<pre class="r"><code>library(readxl)</code></pre>
+<p>Importación de los datos a tratar:</p>
+<pre class="r"><code>depresion &lt;- read.csv(&quot;INPUT/DATA/DEPRESION.csv&quot;, 
+    sep = &quot;;&quot;, fileEncoding = &quot;Latin1&quot;, header = TRUE, stringsAsFactors = FALSE)
+depresion</code></pre>
+<pre><code>##           Sexo Total.Nacional Comunidades.y.Ciudades.Autónomas
+## 1  Ambos sexos          Total                                 
+## 2  Ambos sexos          Total                        Andalucía
+## 3  Ambos sexos          Total                           Aragón
+## 4  Ambos sexos          Total         Asturias (Principado de)
+## 5  Ambos sexos          Total                  Balears (Illes)
+## 6  Ambos sexos          Total                         Canarias
+## 7  Ambos sexos          Total                        Cantabria
+## 8  Ambos sexos          Total                  Castilla y León
+## 9  Ambos sexos          Total               Castilla-La Mancha
+## 10 Ambos sexos          Total                         Cataluña
+## 11 Ambos sexos          Total             Comunitat Valenciana
+## 12 Ambos sexos          Total                      Extremadura
+## 13 Ambos sexos          Total                          Galicia
+## 14 Ambos sexos          Total            Madrid (Comunidad de)
+## 15 Ambos sexos          Total               Murcia (Región de)
+## 16 Ambos sexos          Total     Navarra (Comunidad Foral de)
+## 17 Ambos sexos          Total                       País Vasco
+## 18 Ambos sexos          Total                       Rioja (La)
+## 19 Ambos sexos          Total       Ceuta (Ciudad Autónoma de)
+## 20 Ambos sexos          Total     Melilla (Ciudad Autónoma de)
+## 21     Hombres          Total                                 
+## 22     Hombres          Total                        Andalucía
+## 23     Hombres          Total                           Aragón
+## 24     Hombres          Total         Asturias (Principado de)
+## 25     Hombres          Total                  Balears (Illes)
+## 26     Hombres          Total                         Canarias
+## 27     Hombres          Total                        Cantabria
+## 28     Hombres          Total                  Castilla y León
+## 29     Hombres          Total               Castilla-La Mancha
+## 30     Hombres          Total                         Cataluña
+## 31     Hombres          Total             Comunitat Valenciana
+## 32     Hombres          Total                      Extremadura
+## 33     Hombres          Total                          Galicia
+## 34     Hombres          Total            Madrid (Comunidad de)
+## 35     Hombres          Total               Murcia (Región de)
+## 36     Hombres          Total     Navarra (Comunidad Foral de)
+## 37     Hombres          Total                       País Vasco
+## 38     Hombres          Total                       Rioja (La)
+## 39     Hombres          Total       Ceuta (Ciudad Autónoma de)
+## 40     Hombres          Total     Melilla (Ciudad Autónoma de)
+## 41     Mujeres          Total                                 
+## 42     Mujeres          Total                        Andalucía
+## 43     Mujeres          Total                           Aragón
+## 44     Mujeres          Total         Asturias (Principado de)
+## 45     Mujeres          Total                  Balears (Illes)
+## 46     Mujeres          Total                         Canarias
+## 47     Mujeres          Total                        Cantabria
+## 48     Mujeres          Total                  Castilla y León
+## 49     Mujeres          Total               Castilla-La Mancha
+## 50     Mujeres          Total                         Cataluña
+## 51     Mujeres          Total             Comunitat Valenciana
+## 52     Mujeres          Total                      Extremadura
+## 53     Mujeres          Total                          Galicia
+## 54     Mujeres          Total            Madrid (Comunidad de)
+## 55     Mujeres          Total               Murcia (Región de)
+## 56     Mujeres          Total     Navarra (Comunidad Foral de)
+## 57     Mujeres          Total                       País Vasco
+## 58     Mujeres          Total                       Rioja (La)
+## 59     Mujeres          Total       Ceuta (Ciudad Autónoma de)
+## 60     Mujeres          Total     Melilla (Ciudad Autónoma de)
+##     Prevalencia.depresión Total
+## 1  Cuadro depresivo mayor  3,52
+## 2  Cuadro depresivo mayor  5,26
+## 3  Cuadro depresivo mayor  2,87
+## 4  Cuadro depresivo mayor  7,71
+## 5  Cuadro depresivo mayor  4,02
+## 6  Cuadro depresivo mayor  5,73
+## 7  Cuadro depresivo mayor  4,18
+## 8  Cuadro depresivo mayor  2,22
+## 9  Cuadro depresivo mayor  2,19
+## 10 Cuadro depresivo mayor  3,34
+## 11 Cuadro depresivo mayor  2,36
+## 12 Cuadro depresivo mayor  2,33
+## 13 Cuadro depresivo mayor  2,83
+## 14 Cuadro depresivo mayor   2,5
+## 15 Cuadro depresivo mayor   4,3
+## 16 Cuadro depresivo mayor  4,83
+## 17 Cuadro depresivo mayor  2,46
+## 18 Cuadro depresivo mayor  1,98
+## 19 Cuadro depresivo mayor  2,53
+## 20 Cuadro depresivo mayor  3,03
+## 21 Cuadro depresivo mayor  2,46
+## 22 Cuadro depresivo mayor   3,7
+## 23 Cuadro depresivo mayor  2,06
+## 24 Cuadro depresivo mayor  5,26
+## 25 Cuadro depresivo mayor  3,03
+## 26 Cuadro depresivo mayor  4,97
+## 27 Cuadro depresivo mayor  2,13
+## 28 Cuadro depresivo mayor  1,18
+## 29 Cuadro depresivo mayor  1,42
+## 30 Cuadro depresivo mayor  2,14
+## 31 Cuadro depresivo mayor  1,62
+## 32 Cuadro depresivo mayor  1,22
+## 33 Cuadro depresivo mayor  2,65
+## 34 Cuadro depresivo mayor  1,58
+## 35 Cuadro depresivo mayor  3,05
+## 36 Cuadro depresivo mayor  4,55
+## 37 Cuadro depresivo mayor  1,64
+## 38 Cuadro depresivo mayor  1,01
+## 39 Cuadro depresivo mayor  0,36
+## 40 Cuadro depresivo mayor  1,04
+## 41 Cuadro depresivo mayor  4,54
+## 42 Cuadro depresivo mayor  6,77
+## 43 Cuadro depresivo mayor  3,65
+## 44 Cuadro depresivo mayor  9,95
+## 45 Cuadro depresivo mayor  5,01
+## 46 Cuadro depresivo mayor  6,46
+## 47 Cuadro depresivo mayor  6,12
+## 48 Cuadro depresivo mayor  3,23
+## 49 Cuadro depresivo mayor  2,95
+## 50 Cuadro depresivo mayor  4,47
+## 51 Cuadro depresivo mayor  3,08
+## 52 Cuadro depresivo mayor  3,42
+## 53 Cuadro depresivo mayor     3
+## 54 Cuadro depresivo mayor  3,34
+## 55 Cuadro depresivo mayor  5,54
+## 56 Cuadro depresivo mayor   5,1
+## 57 Cuadro depresivo mayor  3,24
+## 58 Cuadro depresivo mayor  2,92
+## 59 Cuadro depresivo mayor  5,02
+## 60 Cuadro depresivo mayor  4,85</code></pre>
 </div>
 </div>
 <div id="alcoholismo" class="section level2">
@@ -418,11 +548,54 @@ ha sido realizado a nivel de España.</p>
 <h3>Datos sobre el alcoholismo:</h3>
 <p>En primer lugar tenemos un conjunto de datos que estudian la cantidad
 de alcohol que se consume por Comunidad Autónoma. Lo primero que hacemos
-es importat la biblioteca que nos permitirá leer el archivo csv:</p>
+es importar la biblioteca que nos permitirá leer el archivo csv:</p>
 <pre class="r"><code>library(readxl)</code></pre>
 <p>Importamos los datos mediante el siguiente código:</p>
 <pre class="r"><code>alcohol &lt;- read.csv(&quot;INPUT/DATA/ALCOHOL.csv&quot;, 
-    sep = &quot;;&quot;, fileEncoding = &quot;Latin1&quot;, header = TRUE, stringsAsFactors = FALSE)</code></pre>
+    sep = &quot;;&quot;, fileEncoding = &quot;Latin1&quot;, header = TRUE, stringsAsFactors = FALSE)
+alcohol</code></pre>
+<pre><code>##           Sexo Total.Nacional Comunidades.y.Ciudades.Autónomas    Frecuencia
+## 1  AMBOS SEXOS          Total                                  Semanal (L-D)
+## 2  AMBOS SEXOS          Total                        Andalucía Semanal (L-D)
+## 3  AMBOS SEXOS          Total                           Aragón Semanal (L-D)
+## 4  AMBOS SEXOS          Total          Asturias, Principado de Semanal (L-D)
+## 5  AMBOS SEXOS          Total                   Balears, Illes Semanal (L-D)
+## 6  AMBOS SEXOS          Total                         Canarias Semanal (L-D)
+## 7  AMBOS SEXOS          Total                        Cantabria Semanal (L-D)
+## 8  AMBOS SEXOS          Total                  Castilla y León Semanal (L-D)
+## 9  AMBOS SEXOS          Total               Castilla-La Mancha Semanal (L-D)
+## 10 AMBOS SEXOS          Total                         Cataluña Semanal (L-D)
+## 11 AMBOS SEXOS          Total             Comunitat Valenciana Semanal (L-D)
+## 12 AMBOS SEXOS          Total                      Extremadura Semanal (L-D)
+## 13 AMBOS SEXOS          Total                          Galicia Semanal (L-D)
+## 14 AMBOS SEXOS          Total             Madrid, Comunidad de Semanal (L-D)
+## 15 AMBOS SEXOS          Total                Murcia, Región de Semanal (L-D)
+## 16 AMBOS SEXOS          Total      Navarra, Comunidad Foral de Semanal (L-D)
+## 17 AMBOS SEXOS          Total                       País Vasco Semanal (L-D)
+## 18 AMBOS SEXOS          Total                        Rioja, La Semanal (L-D)
+## 19 AMBOS SEXOS          Total                            Ceuta Semanal (L-D)
+## 20 AMBOS SEXOS          Total                          Melilla Semanal (L-D)
+##    Número.medio Total
+## 1         Media 11,79
+## 2         Media 11,32
+## 3         Media 13,55
+## 4         Media 14,63
+## 5         Media 11,81
+## 6         Media 12,06
+## 7         Media  8,67
+## 8         Media 15,91
+## 9         Media 15,06
+## 10        Media  9,91
+## 11        Media 11,74
+## 12        Media 11,64
+## 13        Media 11,63
+## 14        Media 11,35
+## 15        Media  8,80
+## 16        Media 12,49
+## 17        Media 14,19
+## 18        Media 13,20
+## 19        Media 11,91
+## 20        Media 10,02</code></pre>
 </div>
 <div id="comparación-con-la-depresión" class="section level3">
 <h3>Comparación con la depresión</h3>
