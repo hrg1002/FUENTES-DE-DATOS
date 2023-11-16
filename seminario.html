@@ -417,15 +417,12 @@ ha sido realizado a nivel de España.</p>
 <div id="datos-sobre-el-alcoholismo" class="section level3">
 <h3>Datos sobre el alcoholismo:</h3>
 <p>En primer lugar tenemos un conjunto de datos que estudian la cantidad
-de alcohol que se consume por Comunidad Autónoma. Importamos los datos
-mediante el siguiente código:</p>
-<pre class="r"><code>library(readxl)
-library (jsonlite)
-alcohol &lt;- read.csv(&quot;INPUT/DATA/ALCOHOL.csv&quot;, 
-    sep = &quot;;&quot;, fileEncoding = &quot;Latin1&quot;, header = TRUE, stringsAsFactors = FALSE)
-alcohol
-depre &lt;- read.csv(&quot;INPUT/DATA/12010&quot;)
-salario&lt;- fromJSON(&quot;INPUT/DATA/salario.json&quot;</code></pre>
+de alcohol que se consume por Comunidad Autónoma. Lo primero que hacemos
+es importat la biblioteca que nos permitirá leer el archivo csv:</p>
+<pre class="r"><code>library(readxl)</code></pre>
+<p>Importamos los datos mediante el siguiente código:</p>
+<pre class="r"><code>alcohol &lt;- read.csv(&quot;INPUT/DATA/ALCOHOL.csv&quot;, 
+    sep = &quot;;&quot;, fileEncoding = &quot;Latin1&quot;, header = TRUE, stringsAsFactors = FALSE)</code></pre>
 </div>
 <div id="comparación-con-la-depresión" class="section level3">
 <h3>Comparación con la depresión</h3>

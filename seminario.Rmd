@@ -23,17 +23,17 @@ output:
 ## Alcoholismo
 ### Datos sobre el alcoholismo:
 En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma.
+Lo primero que hacemos es importat la biblioteca que nos permitirá leer el archivo csv:
+
+```{r, eval=TRUE, echo=TRUE}
+library(readxl)
+```
+
 Importamos los datos mediante el siguiente código:
 
-```{r, eval=FALSE}
-library(readxl)
-library (jsonlite)
+```{r, eval=FALSE, echo=TRUE}
 alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
-alcohol
-depre <- read.csv("INPUT/DATA/12010")
-salario<- fromJSON("INPUT/DATA/salario.json"
-
 
 ```
 ### Comparación con la depresión
