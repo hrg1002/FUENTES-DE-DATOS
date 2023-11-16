@@ -9,30 +9,33 @@ output:
   pdf_document:
       keep_text: TRUE
 ---
-# Introducción
-
+# __Introducción__
 
   El estudio que nos ocupa se trata de un análisis de la Salud Mental, más concretamente del nivel de cuadro depresivo mayor total por Comunidades Autónomas para ambos sexos. Para ello hemos querido estudiar tres posibles causas que podrían relacionarse como causa-efecto: el consumo de alcohol, el salario promedio y las horas de luz al año que disfrutan los habitantes de las respectivas comunidades. 
   Hemos estructurado el informe en tres partes principales donde compararemos la depresión con cada uno de estos factores, y finalmente una comparación global donde extraeremos las conclusiones.
   Cabe destacar que el estudio ha sido realizado a nivel de España.
 
 
-## Depresión
+## __Depresión__
+Para el análisis trabajaremos sobre el índice que indica el nivel de depresión
+
 ### Datos sobre la depresión
 A continuación se mostrarán los datos del cuadro depresivo mayor por Comunidad Autónoma. 
 Importamos la biblioteca correspondiente para poder leer el archivo csv: 
 
 ```{r, eval=TRUE, echo=TRUE}
 library(readxl)
+library(DT)
 ```
 Importación de los datos a tratar: 
 
 ```{r, eval=TRUE, echo=TRUE}
 depresion <- read.csv("INPUT/DATA/DEPRESION.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
-depresion
+datatable(depresion)
 ```
-## Alcoholismo
+## __Alcoholismo__
+
 ### Datos sobre el alcoholismo:
 En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma.
 Lo primero que hacemos es importar la biblioteca que nos permitirá leer el archivo csv:
@@ -46,22 +49,40 @@ Importamos los datos mediante el siguiente código:
 ```{r, eval=TRUE, echo=TRUE}
 alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
-alcohol
+datatable(alcohol)
 ```
 ### Comparación con la depresión
 
-
-
 ### Análisis breve
 
-## Salario
+## __Salario__
+
 ### Datos sobre el salario medio
+  Para poder trabajar datos en formato __JSON__ tenemos que importar primero esta biblioteca:
+```{r,eval=TRUE, echo=TRUE}
+library(jsonlite)
+library(knitr)
+```
+  Ruta al archivo JSON
+  
+```{r,eval=TRUE, echo=TRUE}
+ruta_archivo<-"INPUT/DATA/salarios.json"
+```
+```{r,eval=TRUE, echo=TRUE}
+salarios<-fromJSON(ruta_archivo)
+kable(salarios)
+```
+
 ### Comparación con la depresión
+
 ### Análisis breve
 
-## Horas de luz
+## __Horas de luz__
+
 ### Datos sobre horas de luz
+
 ### Comparación con la depresión
+
 ### Análisis breve
 
-
+# __Conclusión__
