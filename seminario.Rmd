@@ -17,9 +17,10 @@ output:
 
 
 ## __Depresión__
-Para el análisis trabajaremos sobre el índice que indica el nivel de depresión
 
-### Datos sobre la depresión
+
+### _Datos sobre la depresión_
+  Para el análisis trabajaremos sobre el índice que indica el nivel de depresión
 A continuación se mostrarán los datos del cuadro depresivo mayor por Comunidad Autónoma. 
 Importamos la biblioteca correspondiente para poder leer el archivo csv: 
 
@@ -34,15 +35,13 @@ depresion <- read.csv("INPUT/DATA/DEPRESION.csv",
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
 datatable(depresion)
 ```
+
 ## __Alcoholismo__
 
-### Datos sobre el alcoholismo:
-En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma.
-Lo primero que hacemos es importar la biblioteca que nos permitirá leer el archivo csv:
+### _Datos sobre el alcoholismo:_
+En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma. La medida total se encuentra en gramos de alcohol puro diario por personas que beben más de una vez al mes donde, por ejemplo, una cerveza con alcohol equivale a 10 g.
 
-```{r, eval=TRUE, echo=TRUE}
-library(readxl)
-```
+No es necesario importar la biblioteca que nos permitirá leer el archivo csv ya que ha sido importada anteriormente.
 
 Importamos los datos mediante el siguiente código:
 
@@ -51,13 +50,24 @@ alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv",
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
 datatable(alcohol)
 ```
-### Comparación con la depresión
+### _Comparación con la depresión_
+  Para poder comparar los datos y sacar conclusiones, hemos de cruzar las tablas y obtener una gráfica que nos permita observar la relación existente entre ambos factores. Para ello realizaremos el siguiente código:
+  
+```{r, eval=TRUE, echo=TRUE}
+library(ggplot2)
+comparacion <- merge(depresion, alcohol, by = "Comunidades.y.Ciudades.Autónomas")
+tabla_final<-comparacion[ ,c("Comunidades.y.Ciudades.Autónomas", "Prevalencia.depresión", "Total")]
+tabla_final
+```
+  
 
-### Análisis breve
+### _Análisis breve_
 
 ## __Salario__
 
-### Datos sobre el salario medio
+### _Datos sobre el salario medio_
+  Este factor que analizaremos tiene en cuenta el salario medio anual por individuo dependiendo de la Comunidad Autónoma en la que se encuentre. 
+
   Para poder trabajar datos en formato __JSON__ tenemos que importar primero esta biblioteca:
 ```{r,eval=TRUE, echo=TRUE}
 library(jsonlite)
@@ -73,16 +83,17 @@ salarios<-fromJSON(ruta_archivo)
 kable(salarios)
 ```
 
-### Comparación con la depresión
+### _Comparación con la depresión_
 
-### Análisis breve
+### _Análisis breve_
 
 ## __Horas de luz__
 
-### Datos sobre horas de luz
+### _Datos sobre horas de luz_
+En este caso estudiaremos el número de horas de luz que disfruta cada provincia en España al año. Los datos los tenemos agrupados por provincias, por lo que hemos de cambiarlo a Comunidades Autónomas.
 
-### Comparación con la depresión
+### _Comparación con la depresión_
 
-### Análisis breve
+### _Análisis breve_
 
 # __Conclusión__
