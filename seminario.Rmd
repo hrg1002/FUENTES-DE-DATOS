@@ -138,6 +138,14 @@ salarios
 
 ### _Datos sobre horas de luz_
 En este caso estudiaremos el número de horas de luz que disfruta cada provincia en España al año. Los datos los tenemos agrupados por provincias, por lo que hemos de cambiarlo a Comunidades Autónomas.
+Esta información procede de una página web. Para poder trabajar con los datos usaremos la librería rvest. 
+```{r,eval=TRUE, echo=TRUE}
+ library(rvest)
+```
+Leemos la pánina:
+```{r,eval=TRUE, echo=TRUE}
+ document <- read_html("https://facturadelaluz.com/solar/que-provincias-tienen-mas-horas-de-sol/")
+```
 
 ### _Comparación con la depresión_
 
