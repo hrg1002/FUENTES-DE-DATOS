@@ -146,6 +146,13 @@ Leemos la pánina:
 ```{r,eval=TRUE, echo=TRUE}
  document <- read_html("https://facturadelaluz.com/solar/que-provincias-tienen-mas-horas-de-sol/")
 ```
+Seleccionamos los datos con los que queremos trabajar:
+```{r,eval=TRUE, echo=TRUE}
+html_products <- document %>% html_elements(".table-default")
+```
+```{r,eval=TRUE, echo=TRUE}
+html_products 
+```
 
 ### _Comparación con la depresión_
 
