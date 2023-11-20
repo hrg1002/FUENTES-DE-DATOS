@@ -1,6 +1,7 @@
 ---
-title: "<span style='color: orange ;font-family: Times New Roman, serif; font-size: 28pt; font-weight: bold; text-align: center;'>Cuadro depresivo vs: alcoholismo, salario medio y horas de luz</span>"
-author: "Henar Ronda, Yasmina Álamo y Raúl Ortega"
+title: "<span style='color: coral ;font-family: Times New Roman, serif; font-size: 28pt; font-weight: bold; text-align: center;display: block;'>Cuadro depresivo vs: alcoholismo,<br> salario medio y horas de luz</span><br>"
+
+author: "<span style='font-size: 20pt;'>Henar Ronda, Yasmina Álamo y Raúl Ortega</span>"
 date: "`r format (Sys.time(),'%d %B %Y')`"
 output: 
   html_document:
@@ -9,59 +10,138 @@ output:
   pdf_document:
       keep_text: TRUE
 ---
-# Introducción
-
+# __Introducción__
 
   El estudio que nos ocupa se trata de un análisis de la Salud Mental, más concretamente del nivel de cuadro depresivo mayor total por Comunidades Autónomas para ambos sexos. Para ello hemos querido estudiar tres posibles causas que podrían relacionarse como causa-efecto: el consumo de alcohol, el salario promedio y las horas de luz al año que disfrutan los habitantes de las respectivas comunidades. 
   Hemos estructurado el informe en tres partes principales donde compararemos la depresión con cada uno de estos factores, y finalmente una comparación global donde extraeremos las conclusiones.
   Cabe destacar que el estudio ha sido realizado a nivel de España.
 
 
-## Depresión
-### Datos sobre la depresión
+## __Depresión__
+
+
+### _Datos sobre la depresión_
+  Para el análisis trabajaremos sobre el índice que indica el nivel de depresión
 A continuación se mostrarán los datos del cuadro depresivo mayor por Comunidad Autónoma. 
 Importamos la biblioteca correspondiente para poder leer el archivo csv: 
 
 ```{r, eval=TRUE, echo=TRUE}
 library(readxl)
+library(DT)
 ```
 Importación de los datos a tratar: 
 
 ```{r, eval=TRUE, echo=TRUE}
-depresion <- read.csv("INPUT/DATA/DEPRESION.csv", 
+depresion <- read.csv("INPUT/DATA/depresion_cambiado.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
-depresion
-```
-## Alcoholismo
-### Datos sobre el alcoholismo:
-En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma.
-Lo primero que hacemos es importar la biblioteca que nos permitirá leer el archivo csv:
 
-```{r, eval=TRUE, echo=TRUE}
-library(readxl)
+depresion$Comunidades.y.Ciudades.Autónomas[depresion$Comunidades.y.Ciudades.Autónomas == ""] <- "Total"
+datatable(depresion)
 ```
+
+
+## __Alcoholismo__
+
+### _Datos sobre el alcoholismo:_
+En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma. La medida total se encuentra en gramos de alcohol puro diario por personas que beben más de una vez al mes donde, por ejemplo, una cerveza con alcohol equivale a 10 g.
+
+No es necesario importar la biblioteca que nos permitirá leer el archivo csv ya que ha sido importada anteriormente.
 
 Importamos los datos mediante el siguiente código:
 
 ```{r, eval=TRUE, echo=TRUE}
 alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
-alcohol
+alcohol$Comunidades.y.Ciudades.Autónomas[alcohol$Comunidades.y.Ciudades.Autónomas == ""] <- "Total"
+datatable(alcohol)
 ```
-### Comparación con la depresión
+
+### _Comparación con la depresión_
+  Para poder comparar los datos y sacar conclusiones, hemos de cruzar las tablas y obtener una gráfica que nos permita observar la relación existente entre ambos factores. Para ello realizaremos el siguiente código:
+  
+```{r, eval=TRUE, echo=TRUE}
+library(ggplot2)
+
+comparacion <- merge(depresion, alcohol, by = "Comunidades.y.Ciudades.Autónomas")
+names(comparacion)
+tabla_final<-comparacion[ ,c("Comunidades.y.Ciudades.Autónomas", "Total.x", "Total.y")]
+colnames(tabla_final)<-c("Comunidades Autónomas", "Prevalencia Depresión", "Consumo Alcohol")
+datatable(tabla_final)
 
 
+ggplot(tabla_final, aes(x = `Prevalencia Depresión`,y = `Consumo Alcohol`, fill = `Comunidades Autónomas`)) +
+  geom_col(position = "dodge") +  # Usamos geom_col para gráfico de columnas
+  labs(x = "Prevalencia de Depresión",y = "Consumo de Alcohol")  +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_flip()
 
-### Análisis breve
+```
 
-## Salario
-### Datos sobre el salario medio
-### Comparación con la depresión
-### Análisis breve
+```{r, eval=FALSE, echo=TRUE}
+library(ggplot2)
+datos <- rbind(depresion, alcohol)
+ggplot(datos, aes(x=Comunidades.y.Ciudades.Autónomas, y=Número.medio)) + 
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+```{r, eval=TRUE, echo=TRUE}
+# Graficar los mismos datos como un gráfico de puntos
+ggplot(tabla_final, aes(x = `Consumo Alcohol`, y = `Prevalencia Depresión`, color = `Comunidades Autónomas`)) +
+  geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
+  labs(x = "Consumo de Alcohol", y = "Prevalencia de Depresión") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_flip()
 
-## Horas de luz
-### Datos sobre horas de luz
-### Comparación con la depresión
-### Análisis breve
+
+```
+  
+
+### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span>  
+  En base a los resultados obtenidos, podemos concluir que el alcohol no sería una razón de peso que afecte a la revalencia de depresión a nivel de cuadro depresivo mayor, puesto que: <br>
+- En el primer gráfico, no vemos una relación clara entre ambas variables. Por ejemplo en la Comunidad de Andalucía la prevalencia de depresión es la segunda más alta y sin embargo el consumo de alcohol en base a la medición con la que se analiza es la más baja, con lo cual claramente no podemos afirmar que sea una relación directa. Se puede deber a otros factores que analizaremos a continuación <br>
+- En el gráfico de dispersión se nos confirma que no sigue una línea más o menos recta y no tiene validez pues el R cuadrado no tiene el valor que esperaríamos para poder afirmar la relación
+
+## __Salario__
+
+### _Datos sobre el salario medio_
+  Este factor que analizaremos tiene en cuenta el salario medio anual por individuo dependiendo de la Comunidad Autónoma en la que se encuentre. 
+
+  Para poder trabajar datos en formato __JSON__ tenemos que importar primero esta biblioteca:
+```{r,eval=TRUE, echo=TRUE}
+library(jsonlite)
+library(knitr)
+```
+  Ruta al archivo JSON
+  
+```{r,eval=TRUE, echo=TRUE}
+ruta_archivo<-"INPUT/DATA/salarios.json"
+```
+```{r,eval=TRUE, echo=TRUE}
+salarios<-fromJSON(ruta_archivo)
+kable(salarios)
+
+```
 
 
+```{r,eval=TRUE, echo=TRUE}
+salarios$Data[[1]]$Valor
+salarios$MetaData[[1]]
+salarios
+
+```
+
+### _Comparación con la depresión_
+
+### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
+
+## __Horas de luz__
+
+### _Datos sobre horas de luz_
+En este caso estudiaremos el número de horas de luz que disfruta cada provincia en España al año. Los datos los tenemos agrupados por provincias, por lo que hemos de cambiarlo a Comunidades Autónomas.
+
+### _Comparación con la depresión_
+
+
+### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
+
+# __Conclusión__
