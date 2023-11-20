@@ -32,10 +32,13 @@ library(DT)
 Importación de los datos a tratar: 
 
 ```{r, eval=TRUE, echo=TRUE}
-depresion <- read.csv("INPUT/DATA/DEPRESION.csv", 
+depresion <- read.csv("INPUT/DATA/depresion_cambiado.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
+
+depresion$Comunidades.y.Ciudades.Autónomas[depresion$Comunidades.y.Ciudades.Autónomas == ""] <- "Total"
 datatable(depresion)
 ```
+
 
 ## __Alcoholismo__
 
@@ -49,20 +52,54 @@ Importamos los datos mediante el siguiente código:
 ```{r, eval=TRUE, echo=TRUE}
 alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
+alcohol$Comunidades.y.Ciudades.Autónomas[alcohol$Comunidades.y.Ciudades.Autónomas == ""] <- "Total"
 datatable(alcohol)
 ```
+
 ### _Comparación con la depresión_
   Para poder comparar los datos y sacar conclusiones, hemos de cruzar las tablas y obtener una gráfica que nos permita observar la relación existente entre ambos factores. Para ello realizaremos el siguiente código:
   
 ```{r, eval=TRUE, echo=TRUE}
 library(ggplot2)
+
 comparacion <- merge(depresion, alcohol, by = "Comunidades.y.Ciudades.Autónomas")
-#tabla_final<-comparacion[ ,c("Comunidades.y.Ciudades.Autónomas", "Prevalencia.depresión", "Total")]
-#tabla_final
+names(comparacion)
+tabla_final<-comparacion[ ,c("Comunidades.y.Ciudades.Autónomas", "Total.x", "Total.y")]
+colnames(tabla_final)<-c("Comunidades Autónomas", "Prevalencia Depresión", "Consumo Alcohol")
+datatable(tabla_final)
+
+
+ggplot(tabla_final, aes(x = `Prevalencia Depresión`,y = `Consumo Alcohol`, fill = `Comunidades Autónomas`)) +
+  geom_col(position = "dodge") +  # Usamos geom_col para gráfico de columnas
+  labs(x = "Prevalencia de Depresión",y = "Consumo de Alcohol")  +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_flip()
+
+```
+
+```{r, eval=FALSE, echo=TRUE}
+library(ggplot2)
+datos <- rbind(depresion, alcohol)
+ggplot(datos, aes(x=Comunidades.y.Ciudades.Autónomas, y=Número.medio)) + 
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+```{r, eval=TRUE, echo=TRUE}
+# Graficar los mismos datos como un gráfico de puntos
+ggplot(tabla_final, aes(x = `Consumo Alcohol`, y = `Prevalencia Depresión`, color = `Comunidades Autónomas`)) +
+  geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
+  labs(x = "Consumo de Alcohol", y = "Prevalencia de Depresión") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_flip()
+
+
 ```
   
 
-### _Análisis breve_
+### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span>  
+  En base a los resultados obtenidos, podemos concluir que el alcohol no sería una razón de peso que afecte a la revalencia de depresión a nivel de cuadro depresivo mayor, puesto que: <br>
+- En el primer gráfico, no vemos una relación clara entre ambas variables. Por ejemplo en la Comunidad de Andalucía la prevalencia de depresión es la segunda más alta y sin embargo el consumo de alcohol en base a la medición con la que se analiza es la más baja, con lo cual claramente no podemos afirmar que sea una relación directa. Se puede deber a otros factores que analizaremos a continuación <br>
+- En el gráfico de dispersión se nos confirma que no sigue una línea más o menos recta y no tiene validez pues el R cuadrado no tiene el valor que esperaríamos para poder afirmar la relación
 
 ## __Salario__
 
@@ -82,11 +119,20 @@ ruta_archivo<-"INPUT/DATA/salarios.json"
 ```{r,eval=TRUE, echo=TRUE}
 salarios<-fromJSON(ruta_archivo)
 kable(salarios)
+
+```
+
+
+```{r,eval=TRUE, echo=TRUE}
+salarios$Data[[1]]$Valor
+salarios$MetaData[[1]]
+salarios
+
 ```
 
 ### _Comparación con la depresión_
 
-### _Análisis breve_
+### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
 
 ## __Horas de luz__
 
@@ -95,6 +141,7 @@ En este caso estudiaremos el número de horas de luz que disfruta cada provincia
 
 ### _Comparación con la depresión_
 
-### _Análisis breve_
+
+### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
 
 # __Conclusión__
