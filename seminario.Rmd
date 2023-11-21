@@ -43,7 +43,7 @@ datatable(depresion)
 ## __Alcoholismo__
 
 ### _Datos sobre el alcoholismo:_
-En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma. La medida total se encuentra en gramos de alcohol puro diario por personas que beben más de una vez al mes donde, por ejemplo, una cerveza con alcohol equivale a 10 g.
+  En primer lugar tenemos un conjunto de datos que estudian la cantidad de alcohol que se consume por Comunidad Autónoma. La medida total se encuentra en gramos de alcohol puro diario por personas que beben más de una vez al mes donde, por ejemplo, una cerveza con alcohol equivale a 10 g.
 
 No es necesario importar la biblioteca que nos permitirá leer el archivo csv ya que ha sido importada anteriormente.
 
@@ -118,17 +118,11 @@ ruta_archivo<-"INPUT/DATA/salarios.json"
 ```
 ```{r,eval=TRUE, echo=TRUE}
 salarios<-fromJSON(ruta_archivo)
-kable(salarios)
+datatable(salarios)
 
 ```
 
 
-```{r,eval=TRUE, echo=TRUE}
-salarios$Data[[1]]$Valor
-salarios$MetaData[[1]]
-salarios
-
-```
 
 ### _Comparación con la depresión_
 
