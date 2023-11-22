@@ -147,6 +147,18 @@ html_products <- document %>% html_elements(".table-default")
 ```{r,eval=TRUE, echo=TRUE}
 html_products 
 ```
+```{r}
+html_products <- read_html(html)
+
+# Encuentra la tabla específica por el encabezado
+tabla_andalucia <- html_nodes(html_products, "table:contains('HORAS DE SOL EN ANDALUCÍA')")
+
+# Extrae la tabla como un dataframe
+tabla_andalucia_df <- html_table(tabla_andalucia[[1]], fill = TRUE)
+
+# Imprime el dataframe
+tabla_andalucia_df
+```
 
 ### _Comparación con la depresión_
 
