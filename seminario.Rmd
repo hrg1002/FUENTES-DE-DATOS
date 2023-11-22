@@ -132,6 +132,21 @@ datatable(salarios)
 
 ### _Datos sobre horas de luz_
 En este caso estudiaremos el número de horas de luz que disfruta cada provincia en España al año. Los datos los tenemos agrupados por provincias, por lo que hemos de cambiarlo a Comunidades Autónomas.
+Esta información procede de una página web. Para poder trabajar con los datos usaremos la librería rvest. 
+```{r,eval=TRUE, echo=TRUE}
+ library(rvest)
+```
+Leemos la página:
+```{r,eval=TRUE, echo=TRUE}
+ document <- read_html("https://facturadelaluz.com/solar/que-provincias-tienen-mas-horas-de-sol/")
+```
+Seleccionamos los datos con los que queremos trabajar:
+```{r,eval=TRUE, echo=TRUE}
+html_products <- document %>% html_elements(".table-default")
+```
+```{r,eval=TRUE, echo=TRUE}
+html_products 
+```
 
 ### _Comparación con la depresión_
 
@@ -139,3 +154,9 @@ En este caso estudiaremos el número de horas de luz que disfruta cada provincia
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
 
 # __Conclusión__
+
+
+
+
+
+
