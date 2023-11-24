@@ -35,7 +35,7 @@ Importación de los datos a tratar:
 depresion <- read.csv("INPUT/DATA/depresion_cambiado.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
 
-depresion$Comunidades.y.Ciudades.Autónomas[depresion$Comunidades.y.Ciudades.Autónomas == ""] <- "Total"
+depresion$Comunidades.y.Ciudades.Autónomas[depresion$Comunidades.y.Ciudades.Autónomas == ""] <- "Media Nacional"
 datatable(depresion)
 ```
 
@@ -52,7 +52,7 @@ Importamos los datos mediante el siguiente código:
 ```{r, eval=TRUE, echo=TRUE}
 alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
-alcohol$Comunidades.y.Ciudades.Autónomas[alcohol$Comunidades.y.Ciudades.Autónomas == ""] <- "Total"
+alcohol$Comunidades.y.Ciudades.Autónomas[alcohol$Comunidades.y.Ciudades.Autónomas == ""] <- "Media Nacional"
 datatable(alcohol)
 ```
 
