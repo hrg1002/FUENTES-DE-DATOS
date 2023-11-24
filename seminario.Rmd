@@ -123,19 +123,28 @@ ruta_archivo<-"INPUT/DATA/salarios.json"
   Datos salario
 ```{r,eval=TRUE, echo=TRUE}
 salarios<-fromJSON(ruta_archivo)
-mi_tabla <- data.frame(Comunidades.y.Ciudades.Autónomas = character(), Salario = numeric())
+tabla_salarios <- data.frame(Comunidades.y.Ciudades.Autónomas = character(), Salario = numeric())
 a <- mapply(list, salarios$Nombre, salarios$Data, SIMPLIFY = FALSE)
 for (i in a){
   if(grepl("decil", i[[1]]) & !grepl("Jornada", i[[1]])) {
-    mi_tabla <- rbind(mi_tabla, data.frame(Comunidades.y.Ciudades.Autónomas = i[[1]], Salario = i[[2]]$Valor))  
+    tabla_salarios <- rbind(tabla_salarios, data.frame(Comunidades.y.Ciudades.Autónomas = i[[1]], Salario = i[[2]]$Valor))  
   }
 }
   
-datatable(mi_tabla)
+datatable(tabla_salarios)
 ```
 
 
 ### _Comparación con la depresión_
+```{r, eval=TRUE, echo=TRUE}
+library(dplyr)
+comparacion<-inner_join(depresion, tabla_salarios, by= "Comunidades.y.Ciudades.Autónomas")
+tabla_final <- comparacion %>%
+  select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia de Depresión"=Total.x, "Salario"=Total.y)
+datatable(tabla_final)
+
+``` 
+
 
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
 
