@@ -120,12 +120,19 @@ library(knitr)
 ```{r,eval=TRUE, echo=TRUE}
 ruta_archivo<-"INPUT/DATA/salarios.json"
 ```
+  Datos salario
 ```{r,eval=TRUE, echo=TRUE}
 salarios<-fromJSON(ruta_archivo)
-datatable(salarios)
-
+mi_tabla <- data.frame(Comunidades.y.Ciudades.Autónomas = character(), Salario = numeric())
+a <- mapply(list, salarios$Nombre, salarios$Data, SIMPLIFY = FALSE)
+for (i in a){
+  if(grepl("decil", i[[1]]) & !grepl("Jornada", i[[1]])) {
+    mi_tabla <- rbind(mi_tabla, data.frame(Comunidades.y.Ciudades.Autónomas = i[[1]], Salario = i[[2]]$Valor))  
+  }
+}
+  
+datatable(mi_tabla)
 ```
-
 
 
 ### _Comparación con la depresión_
