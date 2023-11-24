@@ -140,7 +140,7 @@ datatable(tabla_salarios)
 library(dplyr)
 comparacion<-inner_join(depresion, tabla_salarios, by= "Comunidades.y.Ciudades.Autónomas")
 tabla_final <- comparacion %>%
-  select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia de Depresión"=Total.x, "Salario"=Total.y)
+  select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Salario"=Total.y)
 datatable(tabla_final)
 
 ``` 
