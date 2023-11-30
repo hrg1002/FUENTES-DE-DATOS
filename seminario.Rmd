@@ -130,7 +130,18 @@ for (i in a){
     tabla_salarios <- rbind(tabla_salarios, data.frame(Comunidades.y.Ciudades.Autónomas = i[[1]], Salario = i[[2]]$Valor))  
   }
 }
-  
+ 
+a <- select(salarios, Nombre, Data)%>%
+  dplyr::filter(grepl("decil", Nombre) & !grepl("Jornada", Nombre))%>%
+  mutate(Comunidades.y.Ciudades.Autónomas = substr(Nombre, 7, nchar(Nombre)-41))%>%
+  select(Comunidades.y.Ciudades.Autónomas, Data)
+
+a <- salarios%>%
+  dplyr::filter(grepl("decil", Nombre) & !grepl("Jornada", Nombre))%>%
+  mutate(Comunidades.y.Ciudades.Autónomas = substr(Nombre, 7, nchar(Nombre)-41))%>%
+  select(Comunidades.y.Ciudades.Autónomas, Data)
+
+
 datatable(tabla_salarios)
 ```
 
