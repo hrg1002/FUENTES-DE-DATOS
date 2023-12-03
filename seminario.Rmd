@@ -53,6 +53,8 @@ Importamos los datos mediante el siguiente código:
 alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv", 
     sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
 alcohol$Comunidades.y.Ciudades.Autónomas[alcohol$Comunidades.y.Ciudades.Autónomas == ""] <- "Media Nacional"
+alcohol <- alcohol%>%
+  select(Comunidades.y.Ciudades.Autónomas, Total)
 datatable(alcohol)
 ```
 
@@ -123,24 +125,20 @@ ruta_archivo<-"INPUT/DATA/salarios.json"
   Datos salario
 ```{r,eval=TRUE, echo=TRUE}
 salarios<-fromJSON(ruta_archivo)
-tabla_salarios <- data.frame(Comunidades.y.Ciudades.Autónomas = character(), Salario = numeric())
+tabla_salarios <- data.frame(Nombres = character(), Total = numeric())
 a <- mapply(list, salarios$Nombre, salarios$Data, SIMPLIFY = FALSE)
 for (i in a){
   if(grepl("decil", i[[1]]) & !grepl("Jornada", i[[1]])) {
-    tabla_salarios <- rbind(tabla_salarios, data.frame(Comunidades.y.Ciudades.Autónomas = i[[1]], Salario = i[[2]]$Valor))  
+    tabla_salarios <- rbind(tabla_salarios, data.frame(Nombres = i[[1]], Total = i[[2]]$Valor))  
   }
 }
- 
-a <- select(salarios, Nombre, Data)%>%
-  dplyr::filter(grepl("decil", Nombre) & !grepl("Jornada", Nombre))%>%
-  mutate(Comunidades.y.Ciudades.Autónomas = substr(Nombre, 7, nchar(Nombre)-41))%>%
-  select(Comunidades.y.Ciudades.Autónomas, Data)
 
-a <- salarios%>%
-  dplyr::filter(grepl("decil", Nombre) & !grepl("Jornada", Nombre))%>%
-  mutate(Comunidades.y.Ciudades.Autónomas = substr(Nombre, 7, nchar(Nombre)-41))%>%
-  select(Comunidades.y.Ciudades.Autónomas, Data)
+tabla_salarios <- tabla_salarios %>%
+  separate(Nombres, into = c("Tot", "Comunidades.y.Ciudades.Autónomas","base","decil", "Salario medio"), sep = "\\.")%>%
+  select(Comunidades.y.Ciudades.Autónomas, Total)
 
+tabla_salarios$Comunidades.y.Ciudades.Autónomas[1] <- "Media Nacional"
+  
 
 datatable(tabla_salarios)
 ```
