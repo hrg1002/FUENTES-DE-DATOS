@@ -81,9 +81,9 @@ library(ggplot2)
   A continuación, el código junto a los resultados:
 ```{r, eval=TRUE, echo=TRUE}
 
-ggplot(tabla_final, aes(x = `Prevalencia Depresión`,y = `Consumo Alcohol`, fill = `Comunidades Autónomas`)) +
+ggplot(tabla_final, aes(x =`Consumo Alcohol` ,y = `Prevalencia Depresión`, fill = `Comunidades Autónomas`)) +
   geom_col(position = "dodge") +  # Usamos geom_col para gráfico de columnas
-  labs(x = "Prevalencia de Depresión",y = "Consumo de Alcohol")  +
+  labs(x ="Consumo de Alcohol ",y = "Prevalencia de Depresión")  +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_flip()
 
