@@ -91,20 +91,11 @@ library(ggplot2)
 
   A continuación, el código junto a los resultados:
 ```{r, eval=TRUE, echo=TRUE}
-<<<<<<< HEAD
-
-ggplot(tabla_final, aes(x = `Consumo Alcohol`,y = `Prevalencia Depresión`, fill = `Comunidades Autónomas`)) +
-  geom_col(position = "dodge") +  # Usamos geom_col para gráfico de columnas
-  labs(x = "Consumo de Alcohol",y = "Prevalencia de Depresión")  +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-=======
 ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, fill = `Comunidades Autónomas`)) +
   geom_col(position = "dodge") + 
   labs(title = "Consumo de Alcohol vs Prevalencia de Depresión", y = "Consumo de Alcohol", x = "Prevalencia de Depresión") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
->>>>>>> 1c7b40a9b22064d5914ef183aef85b3c2a2c39b3
   coord_flip()
-
 
 ```
 
@@ -112,15 +103,11 @@ ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, fil
 
 ```{r, eval=TRUE, echo=TRUE}
 # Graficar los mismos datos como un gráfico de puntos
-<<<<<<< HEAD
-ggplot(tabla_final, aes(x = `Prevalencia Depresión`, y = `Consumo Alcohol`, color = `Comunidades Autónomas`)) +
-  geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
-  labs(x = "Prevalencia de Depresión", y = "Consumo de Alcohol") +
-=======
+
 ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, color = `Comunidades Autónomas`)) +
   geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
   labs(y = "Consumo de Alcohol", x = "Prevalencia de Depresión") +
->>>>>>> 1c7b40a9b22064d5914ef183aef85b3c2a2c39b3
+
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_flip()
 
@@ -170,7 +157,21 @@ datatable(tabla_salarios)
 ### _Comparación con la depresión_
 ```{r, eval=FALSE, echo=TRUE}
 library(dplyr)
-comparacion_2<-full_join(depresion, tabla_salarios, by= "Comunidades.y.Ciudades.Autónomas")
+library(DT)
+depresion <- 
+  depresion %>%
+  mutate(Factores= factor(Comunidades.y.Ciudades.Autónomas))
+
+depresion$Factores
+factor(tabla_salarios$Comunidades.y.Ciudades.Autónomas)
+factores_comunes <- levels(depresion$Factores)
+
+
+nuevo_salario<- 
+  tabla_salarios%>%
+  mutate(Comunidades.y.Ciudades.Autónomas = factor(Comunidades.y.Ciudades.Autónomas, levels=c("Media Nacional"="Media Nacional","Andalucía"="Andalucía","Aragón"="Aragón", "Asturias, Principado de"="Asturias (Principado de)","Balears, Illes"="Balears (Illes)","Canarias"="Canarias", "Cantabria" ="Cantabria","Castilla y León"="Castilla y León","Castilla - La Mancha"="Castilla-La Mancha","Cataluña"="Cataluña","Comunitat Valenciana"="Comunitat Valenciana","Extremadura"="Extremadura", "Galicia"="Galicia", "Madrid, Comunidad de"= "Madrid (Comunidad de)","Murcia, Región de"="Murcia (Región de)", "Navarra, Comunidad Foral de"= "Navarra (Comunidad Foral de)","País Vasco"="País Vasco", "Rioja, La"="Rioja (La)", "Ceuta"="Ceuta (Ciudad Autónoma de)","Melilla"="Melilla (Ciudad Autónoma de)")))
+datatable(nuevo_salario)
+
 datatable(comparacion_2)
 tabla_final <- comparacion %>%
   select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Salario"=Total.y)
