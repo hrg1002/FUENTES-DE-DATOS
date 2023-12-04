@@ -15,7 +15,7 @@ output:
   El estudio que nos ocupa se trata de un análisis de la Salud Mental, más concretamente del nivel de cuadro depresivo mayor total por Comunidades Autónomas para ambos sexos. Para ello hemos querido estudiar tres posibles causas que podrían relacionarse como causa-efecto: el consumo de alcohol, el salario promedio y las horas de luz al año que disfrutan los habitantes de las respectivas comunidades. 
   Hemos estructurado el informe en tres partes principales donde compararemos la depresión con cada uno de estos factores, y finalmente una comparación global donde extraeremos las conclusiones.
   Cabe destacar que el estudio ha sido realizado a nivel de España.
-
+  
 
 ## __Depresión__
 
@@ -28,8 +28,18 @@ Importamos la biblioteca correspondiente para poder leer el archivo csv:
 ```{r, eval=TRUE, echo=TRUE}
 library(readxl)
 library(DT)
+library(dplyr)
 ```
-Importación de los datos a tratar: 
+Importamos los datos a tratar y los mostramos como una tabla.
+Los datos se refieren a una población de 15 años y más, y la medida l encontramos en porcentaje, es decir, la proporción de personas que padecen un cuadro depresivo mayor por cada 100 personas. 
+Antes de ponernos a analizar, describiremos brevemente las características de esta prevalencia.
+Algunas de las más importantes son:
+- Fatiga y falta de energía
+- Sentimientos de desesperanza, inutilidad u odio a si mismo
+- Pérdida de interés en actividades que se disfrutaban
+- Dificultad de concentración
+- Dificultad para conciliar el sueño
+- Cambio súbito en el apetito
 
 ```{r, eval=TRUE, echo=TRUE}
 depresion <- read.csv("INPUT/DATA/depresion_cambiado.csv", 
@@ -63,7 +73,6 @@ datatable(alcohol)
 ### _Comparación con la depresión_
   Para poder comparar los datos y sacar conclusiones, hemos de cruzar las tablas y obtener una gráfica que nos permita observar la relación existente entre ambos factores. Para ello realizaremos el siguiente código:
 ```{r, eval=TRUE, echo=TRUE}
-library(dplyr)
 comparacion<-inner_join(depresion, alcohol, by= "Comunidades.y.Ciudades.Autónomas")
 tabla_final <- comparacion %>%
   select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Consumo Alcohol"=Total.y)
@@ -82,12 +91,20 @@ library(ggplot2)
 
   A continuación, el código junto a los resultados:
 ```{r, eval=TRUE, echo=TRUE}
+<<<<<<< HEAD
 
 ggplot(tabla_final, aes(x = `Consumo Alcohol`,y = `Prevalencia Depresión`, fill = `Comunidades Autónomas`)) +
   geom_col(position = "dodge") +  # Usamos geom_col para gráfico de columnas
   labs(x = "Consumo de Alcohol",y = "Prevalencia de Depresión")  +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+=======
+ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, fill = `Comunidades Autónomas`)) +
+  geom_col(position = "dodge") + 
+  labs(title = "Consumo de Alcohol vs Prevalencia de Depresión", y = "Consumo de Alcohol", x = "Prevalencia de Depresión") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+>>>>>>> 1c7b40a9b22064d5914ef183aef85b3c2a2c39b3
   coord_flip()
+
 
 ```
 
@@ -95,9 +112,15 @@ ggplot(tabla_final, aes(x = `Consumo Alcohol`,y = `Prevalencia Depresión`, fill
 
 ```{r, eval=TRUE, echo=TRUE}
 # Graficar los mismos datos como un gráfico de puntos
+<<<<<<< HEAD
 ggplot(tabla_final, aes(x = `Prevalencia Depresión`, y = `Consumo Alcohol`, color = `Comunidades Autónomas`)) +
   geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
   labs(x = "Prevalencia de Depresión", y = "Consumo de Alcohol") +
+=======
+ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, color = `Comunidades Autónomas`)) +
+  geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
+  labs(y = "Consumo de Alcohol", x = "Prevalencia de Depresión") +
+>>>>>>> 1c7b40a9b22064d5914ef183aef85b3c2a2c39b3
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_flip()
 
@@ -145,7 +168,7 @@ datatable(tabla_salarios)
 
 
 ### _Comparación con la depresión_
-```{r, eval=TRUE, echo=TRUE}
+```{r, eval=FALSE, echo=TRUE}
 library(dplyr)
 comparacion_2<-full_join(depresion, tabla_salarios, by= "Comunidades.y.Ciudades.Autónomas")
 datatable(comparacion_2)
@@ -154,6 +177,12 @@ tabla_final <- comparacion %>%
 datatable(tabla_final)
 
 ``` 
+```{r, eval=TRUE, echo=TRUE}
+combi<-merge(tabla_salarios, depresion, by="Comunidades.y.Ciudades.Autónomas", all=TRUE)
+combi%>%
+  select(Total.x,Total.y)
+datatable(combi)
+```
 
 
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
@@ -177,20 +206,21 @@ html_products <- document %>% html_elements(".table-default")
 ```{r,eval=TRUE, echo=TRUE}
 html_products 
 ```
-```{r}
-```
 
 ```{r}
 library(xml2)
 df <- xml_data_frame(html_products)
 ```
-
-
 ```{r}
 for (i in seq_along(html_products)) {
   tabla_actual <- html_elements(html_products[[i]])
   cat("Tabla", i, ":\n", tabla_actual, "\n\n")
 }
+
+```
+
+
+```{r}
 
 df <- read_html(tabla_actual) %>% html_table(fill = TRUE)[[1]]
 html_trabajo <- read_xlm(html_products)
@@ -203,6 +233,42 @@ tabla_andalucia_df <- html_table(tabla_andalucia[[1]], fill = TRUE)
 
 # Imprime el dataframe
 tabla_andalucia_df
+```
+```{r}
+for (i in seq_along(html_products)) {
+  tabla_actual <- html_elements(html_products[[i]])
+  cat("Tabla", i, ":\n", tabla_actual, "\n\n")
+}
+
+df <- read_html(tabla_actual) %>% html_table(fill = TRUE)[[1]]
+html_trabajo <- read_xlm(html_products)
+
+# Encuentra la tabla específica por el encabezado
+tabla_aragon <- html_nodes(html_trabajo, "table:contains('HORAS DE SOL EN ANDALUCÍA')")
+
+# Extrae la tabla como un dataframe
+tabla_aragon_df <- html_table(tabla_aragon[[1]], fill = TRUE)
+
+# Imprime el dataframe
+tabla_aragon_df
+```
+```{r}
+for (i in seq_along(html_products)) {
+  tabla_actual <- html_elements(html_products[[i]])
+  cat("Tabla", i, ":\n", tabla_actual, "\n\n")
+}
+
+df <- read_html(tabla_actual) %>% html_table(fill = TRUE)[[1]]
+html_trabajo <- read_xlm(html_products)
+
+# Encuentra la tabla específica por el encabezado
+tabla_asturias <- html_nodes(html_trabajo, "table:contains('HORAS DE SOL EN ANDALUCÍA')")
+
+# Extrae la tabla como un dataframe
+tabla_asturias_df <- html_table(tabla_asturias[[1]], fill = TRUE)
+
+# Imprime el dataframe
+tabla_asturias_df
 ```
 
 ### _Comparación con la depresión_
