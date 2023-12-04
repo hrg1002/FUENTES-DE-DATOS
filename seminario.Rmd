@@ -167,20 +167,21 @@ html_products <- document %>% html_elements(".table-default")
 ```{r,eval=TRUE, echo=TRUE}
 html_products 
 ```
-```{r}
-```
 
 ```{r}
 library(xml2)
 df <- xml_data_frame(html_products)
 ```
-
-
 ```{r}
 for (i in seq_along(html_products)) {
   tabla_actual <- html_elements(html_products[[i]])
   cat("Tabla", i, ":\n", tabla_actual, "\n\n")
 }
+
+```
+
+
+```{r}
 
 df <- read_html(tabla_actual) %>% html_table(fill = TRUE)[[1]]
 html_trabajo <- read_xlm(html_products)
@@ -193,6 +194,42 @@ tabla_andalucia_df <- html_table(tabla_andalucia[[1]], fill = TRUE)
 
 # Imprime el dataframe
 tabla_andalucia_df
+```
+```{r}
+for (i in seq_along(html_products)) {
+  tabla_actual <- html_elements(html_products[[i]])
+  cat("Tabla", i, ":\n", tabla_actual, "\n\n")
+}
+
+df <- read_html(tabla_actual) %>% html_table(fill = TRUE)[[1]]
+html_trabajo <- read_xlm(html_products)
+
+# Encuentra la tabla específica por el encabezado
+tabla_aragon <- html_nodes(html_trabajo, "table:contains('HORAS DE SOL EN ANDALUCÍA')")
+
+# Extrae la tabla como un dataframe
+tabla_aragon_df <- html_table(tabla_aragon[[1]], fill = TRUE)
+
+# Imprime el dataframe
+tabla_aragon_df
+```
+```{r}
+for (i in seq_along(html_products)) {
+  tabla_actual <- html_elements(html_products[[i]])
+  cat("Tabla", i, ":\n", tabla_actual, "\n\n")
+}
+
+df <- read_html(tabla_actual) %>% html_table(fill = TRUE)[[1]]
+html_trabajo <- read_xlm(html_products)
+
+# Encuentra la tabla específica por el encabezado
+tabla_asturias <- html_nodes(html_trabajo, "table:contains('HORAS DE SOL EN ANDALUCÍA')")
+
+# Extrae la tabla como un dataframe
+tabla_asturias_df <- html_table(tabla_asturias[[1]], fill = TRUE)
+
+# Imprime el dataframe
+tabla_asturias_df
 ```
 
 ### _Comparación con la depresión_
