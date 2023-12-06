@@ -15,7 +15,7 @@ output:
   El estudio que nos ocupa se trata de un análisis de la Salud Mental, más concretamente del nivel de cuadro depresivo mayor total por Comunidades Autónomas para ambos sexos. Para ello hemos querido estudiar tres posibles causas que podrían relacionarse como causa-efecto: el consumo de alcohol, el salario promedio y las horas de luz al año que disfrutan los habitantes de las respectivas comunidades. 
   Hemos estructurado el informe en tres partes principales donde compararemos la depresión con cada uno de estos factores, y finalmente una comparación global donde extraeremos las conclusiones.
   Cabe destacar que el estudio ha sido realizado a nivel de España.
-
+  
 
 ## __Depresión__
 
@@ -28,12 +28,23 @@ Importamos la biblioteca correspondiente para poder leer el archivo csv:
 ```{r, eval=TRUE, echo=TRUE}
 library(readxl)
 library(DT)
+library(dplyr)
 ```
-Importación de los datos a tratar: 
+Importamos los datos a tratar y los mostramos como una tabla.
+Los datos se refieren a una población de 15 años y más, y la medida l encontramos en porcentaje, es decir, la proporción de personas que padecen un cuadro depresivo mayor por cada 100 personas. 
+Antes de ponernos a analizar, describiremos brevemente las características de esta prevalencia.
+Algunas de las más importantes son:
+- Fatiga y falta de energía
+- Sentimientos de desesperanza, inutilidad u odio a si mismo
+- Pérdida de interés en actividades que se disfrutaban
+- Dificultad de concentración
+- Dificultad para conciliar el sueño
+- Cambio súbito en el apetito
 
 ```{r, eval=TRUE, echo=TRUE}
 depresion <- read.csv("INPUT/DATA/depresion_cambiado.csv", 
-    sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
+    sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)%>%
+  select(Comunidades.y.Ciudades.Autónomas, Total)
 
 depresion$Comunidades.y.Ciudades.Autónomas[depresion$Comunidades.y.Ciudades.Autónomas == ""] <- "Media Nacional"
 datatable(depresion)
@@ -50,23 +61,23 @@ No es necesario importar la biblioteca que nos permitirá leer el archivo csv ya
 Importamos los datos mediante el siguiente código:
 
 ```{r, eval=TRUE, echo=TRUE}
+library(dplyr)
 alcohol <- read.csv("INPUT/DATA/ALCOHOL.csv", 
-    sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)
-alcohol$Comunidades.y.Ciudades.Autónomas[alcohol$Comunidades.y.Ciudades.Autónomas == ""] <- "Media Nacional"
-alcohol <- alcohol%>%
+    sep = ";", fileEncoding = "Latin1", header = TRUE, stringsAsFactors = FALSE)%>%
   select(Comunidades.y.Ciudades.Autónomas, Total)
+  
+alcohol$Comunidades.y.Ciudades.Autónomas[alcohol$Comunidades.y.Ciudades.Autónomas == ""] <- "Media Nacional"
 datatable(alcohol)
 ```
 
 ### _Comparación con la depresión_
   Para poder comparar los datos y sacar conclusiones, hemos de cruzar las tablas y obtener una gráfica que nos permita observar la relación existente entre ambos factores. Para ello realizaremos el siguiente código:
 ```{r, eval=TRUE, echo=TRUE}
-library(dplyr)
 comparacion<-inner_join(depresion, alcohol, by= "Comunidades.y.Ciudades.Autónomas")
 tabla_final <- comparacion %>%
   select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Consumo Alcohol"=Total.y)
-datatable(tabla_final)
 
+datatable(tabla_final)
 ```  
 
   Tras hallar la tabla realizada a través de un join para visualizar de forma más clara los datos unidos por las comunidades autónomas, procedemos a representar visualmente dichos datos de forma que nos permita ver realmente la relación entre ambas variables.
@@ -80,11 +91,10 @@ library(ggplot2)
 
   A continuación, el código junto a los resultados:
 ```{r, eval=TRUE, echo=TRUE}
-
-ggplot(tabla_final, aes(x = `Prevalencia Depresión`,y = `Consumo Alcohol`, fill = `Comunidades Autónomas`)) +
-  geom_col(position = "dodge") +  # Usamos geom_col para gráfico de columnas
-  labs(x = "Prevalencia de Depresión",y = "Consumo de Alcohol")  +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, fill = `Comunidades Autónomas`)) +
+  geom_col(position = "dodge") + 
+  labs(title = "Consumo de Alcohol vs Prevalencia de Depresión", y = "Consumo de Alcohol", x = "Prevalencia de Depresión") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   coord_flip()
 
 ```
@@ -93,9 +103,11 @@ ggplot(tabla_final, aes(x = `Prevalencia Depresión`,y = `Consumo Alcohol`, fill
 
 ```{r, eval=TRUE, echo=TRUE}
 # Graficar los mismos datos como un gráfico de puntos
-ggplot(tabla_final, aes(x = `Consumo Alcohol`, y = `Prevalencia Depresión`, color = `Comunidades Autónomas`)) +
+
+ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, color = `Comunidades Autónomas`)) +
   geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
-  labs(x = "Consumo de Alcohol", y = "Prevalencia de Depresión") +
+  labs(y = "Consumo de Alcohol", x = "Prevalencia de Depresión") +
+
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_flip()
 
@@ -129,30 +141,49 @@ tabla_salarios <- data.frame(Nombres = character(), Total = numeric())
 a <- mapply(list, salarios$Nombre, salarios$Data, SIMPLIFY = FALSE)
 for (i in a){
   if(grepl("decil", i[[1]]) & !grepl("Jornada", i[[1]])) {
-    tabla_salarios <- rbind(tabla_salarios, data.frame(Nombres = i[[1]], Total = i[[2]]$Valor))  
+    tabla_salarios <- rbind(tabla_salarios, data.frame(Nombres = i[[1]], Salario = i[[2]]$Valor))  
   }
 }
 
 tabla_salarios <- tabla_salarios %>%
-  separate(Nombres, into = c("Tot", "Comunidades.y.Ciudades.Autónomas","base","decil", "Salario medio"), sep = "\\.")%>%
-  select(Comunidades.y.Ciudades.Autónomas, Total)
+  separate( Nombres, into = c("Tot", "Comunidades.y.Ciudades.Autónomas","base","decil", "Salario medio"), sep = "\\.")%>%
+  select(Comunidades.y.Ciudades.Autónomas, Salario)
 
 tabla_salarios$Comunidades.y.Ciudades.Autónomas[1] <- "Media Nacional"
-  
-
 datatable(tabla_salarios)
 ```
 
 
 ### _Comparación con la depresión_
-```{r, eval=TRUE, echo=TRUE}
+```{r, eval=FALSE, echo=TRUE}
 library(dplyr)
-comparacion<-inner_join(depresion, tabla_salarios, by= "Comunidades.y.Ciudades.Autónomas")
+library(DT)
+depresion <- 
+  depresion %>%
+  mutate(Factores= factor(Comunidades.y.Ciudades.Autónomas))
+
+depresion$Factores
+factor(tabla_salarios$Comunidades.y.Ciudades.Autónomas)
+factores_comunes <- levels(depresion$Factores)
+
+
+nuevo_salario<- 
+  tabla_salarios%>%
+  mutate(Comunidades.y.Ciudades.Autónomas = factor(Comunidades.y.Ciudades.Autónomas, levels=c("Media Nacional"="Media Nacional","Andalucía"="Andalucía","Aragón"="Aragón", "Asturias, Principado de"="Asturias (Principado de)","Balears, Illes"="Balears (Illes)","Canarias"="Canarias", "Cantabria" ="Cantabria","Castilla y León"="Castilla y León","Castilla - La Mancha"="Castilla-La Mancha","Cataluña"="Cataluña","Comunitat Valenciana"="Comunitat Valenciana","Extremadura"="Extremadura", "Galicia"="Galicia", "Madrid, Comunidad de"= "Madrid (Comunidad de)","Murcia, Región de"="Murcia (Región de)", "Navarra, Comunidad Foral de"= "Navarra (Comunidad Foral de)","País Vasco"="País Vasco", "Rioja, La"="Rioja (La)", "Ceuta"="Ceuta (Ciudad Autónoma de)","Melilla"="Melilla (Ciudad Autónoma de)")))
+datatable(nuevo_salario)
+
+datatable(comparacion_2)
 tabla_final <- comparacion %>%
   select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Salario"=Total.y)
 datatable(tabla_final)
 
 ``` 
+```{r, eval=TRUE, echo=TRUE}
+combi<-merge(tabla_salarios, depresion, by="Comunidades.y.Ciudades.Autónomas", all=TRUE)
+combi%>%
+  select(Total.x,Total.y)
+datatable(combi)
+```
 
 
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
