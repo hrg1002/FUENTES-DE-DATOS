@@ -268,9 +268,15 @@ horasLuzMedia <- list()
 for(m in 1:17){
   media <- mean(lista_datos_luz[[m]])
   horasLuzMedia[[m]] <- media
-  horas_luz <- data.frame(ComunidadesAutonomas = com_autom, HorasDeLuzMedia = horasLuzMedia[[m]])
 }
 
+# Crear un dataframe vacío
+horas_luz <- data.frame(ComunidadesAutonomas = character(), HorasDeLuzMedia = numeric())
+
+for(x in seq_along(horasLuzMedia)){
+  # Añadir una nueva fila al dataframe
+  horas_luz <- rbind(horas_luz, data.frame(ComunidadesAutonomas = com_autom[x], HorasDeLuzMedia = horasLuzMedia[[x]]))
+}
 horas_luz
 ```
 
