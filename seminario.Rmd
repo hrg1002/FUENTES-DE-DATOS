@@ -164,82 +164,84 @@ En este caso estudiaremos el número de horas de luz que disfruta cada provincia
 Esta información procede de una página web. Para poder trabajar con los datos usaremos la librería rvest. 
 ```{r,eval=TRUE, echo=TRUE}
  library(rvest)
+ library(XML)
+ library(xml2)
+ library(tidyverse)
 ```
 Leemos la página:
 ```{r,eval=TRUE, echo=TRUE}
  document <- read_html("https://facturadelaluz.com/solar/que-provincias-tienen-mas-horas-de-sol/")
 ```
-Seleccionamos los datos con los que queremos trabajar:
+Seleccionamos los datos con los que queremos trabajar, en este caso las tablas:
 ```{r,eval=TRUE, echo=TRUE}
 html_products <- document %>% html_elements(".table-default")
-```
-```{r,eval=TRUE, echo=TRUE}
-html_products 
+html_products
 ```
 
+Creamos un vector con los nombres de las comunidades autonomas: 
 ```{r}
-library(xml2)
-df <- xml_data_frame(html_products)
+com_autom <- c("ANDALUCÍA", 
+"ARAGÓN", 
+"ASTURIAS",
+"CANTABRIA", 
+"CATALUÑA", 
+"CASTILLA Y LEÓN", 
+"CASTILLA LA MANCHA",
+"MADRID", 
+"VALENCIA",
+"EXTREMADURA",
+"GALICIA",
+"ISLAS BALEARES",
+"ISLAS CANARIAS",
+"RIOJA",
+"MURCIA",
+"NAVARRA",
+"PAÍS VASCO")
 ```
+
+Elaboramos un bucle para poder 
 ```{r}
-for (i in seq_along(html_products)) {
-  tabla_actual <- html_elements(html_products[[i]])
-  cat("Tabla", i, ":\n", tabla_actual, "\n\n")
+for(i in seq_along(html_products)){ # Iteramos sobre los nodos de nuestro archivo xml 
+    
+    node_content <- xml_text(html_products[i]) # Extraemos la información de cada tabla 
+  
+    sinpunt <- gsub("\\.", "", node_content) # Eliminamos los puntos de los digitos
+    es <- str_extract_all(sinpunt, "\\d+") # Extraemos unicamente los números
+    num <- as.numeric(unlist(es)) # Pasamos de una string a numeric 
+    datos_luz <- list(num[num > 1000])
+    #cat(datos_luz,"\n")
+    horasLuzMedia <- lapply(datos_luz,mean)
+    ComAutom <- list(com_autom)
+    horas_luz <- data.frame(ComunidadesAutonomas = com_autom, HorasDeLuzMedia = horasLuzMedi)
 }
-
-```
-
-
-```{r}
-
-df <- read_html(tabla_actual) %>% html_table(fill = TRUE)[[1]]
-html_trabajo <- read_xlm(html_products)
-
-# Encuentra la tabla específica por el encabezado
-tabla_andalucia <- html_nodes(html_trabajo, "table:contains('HORAS DE SOL EN ANDALUCÍA')")
-
-# Extrae la tabla como un dataframe
-tabla_andalucia_df <- html_table(tabla_andalucia[[1]], fill = TRUE)
-
-# Imprime el dataframe
-tabla_andalucia_df
+horas_luz
 ```
 ```{r}
-for (i in seq_along(html_products)) {
-  tabla_actual <- html_elements(html_products[[i]])
-  cat("Tabla", i, ":\n", tabla_actual, "\n\n")
+# Crear una lista vacía para almacenar los vectores
+lista_datos_luz <- list()
+
+for(i in seq_along(html_products)){ # Iteramos sobre los nodos de nuestro archivo xml 
+    
+    node_content <- xml_text(html_products[i]) # Extraemos la información de cada tabla 
+  
+    sinpunt <- gsub("\\.", "", node_content) # Eliminamos los puntos de los digitos
+    es <- str_extract_all(sinpunt, "\\d+") # Extraemos unicamente los números
+    num <- as.numeric(unlist(es)) # Pasamos de una string a numeric 
+    datos_luz <- num[num > 1000]
+    
+    # Añadir datos_luz a la lista
+    lista_datos_luz[[i]] <- datos_luz
 }
-
-df <- read_html(tabla_actual) %>% html_table(fill = TRUE)[[1]]
-html_trabajo <- read_xlm(html_products)
-
-# Encuentra la tabla específica por el encabezado
-tabla_aragon <- html_nodes(html_trabajo, "table:contains('HORAS DE SOL EN ANDALUCÍA')")
-
-# Extrae la tabla como un dataframe
-tabla_aragon_df <- html_table(tabla_aragon[[1]], fill = TRUE)
-
-# Imprime el dataframe
-tabla_aragon_df
+lista_datos_luz
+horasLuzMedia <- lapply(datos_luz,mean)
+horasLuzMedia
 ```
-```{r}
-for (i in seq_along(html_products)) {
-  tabla_actual <- html_elements(html_products[[i]])
-  cat("Tabla", i, ":\n", tabla_actual, "\n\n")
-}
 
-df <- read_html(tabla_actual) %>% html_table(fill = TRUE)[[1]]
-html_trabajo <- read_xlm(html_products)
 
-# Encuentra la tabla específica por el encabezado
-tabla_asturias <- html_nodes(html_trabajo, "table:contains('HORAS DE SOL EN ANDALUCÍA')")
 
-# Extrae la tabla como un dataframe
-tabla_asturias_df <- html_table(tabla_asturias[[1]], fill = TRUE)
 
-# Imprime el dataframe
-tabla_asturias_df
-```
+
+
 
 ### _Comparación con la depresión_
 
