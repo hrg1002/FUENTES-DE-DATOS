@@ -211,42 +211,27 @@ html_products
 
 Creamos un vector con los nombres de las comunidades autonomas: 
 ```{r}
-com_autom <- c("ANDALUCÍA", 
-"ARAGÓN", 
-"ASTURIAS",
-"CANTABRIA", 
-"CATALUÑA", 
-"CASTILLA Y LEÓN", 
-"CASTILLA LA MANCHA",
-"MADRID", 
-"VALENCIA",
-"EXTREMADURA",
-"GALICIA",
-"ISLAS BALEARES",
-"ISLAS CANARIAS",
-"RIOJA",
-"MURCIA",
-"NAVARRA",
-"PAÍS VASCO")
+com_autom <- c("Andalucía", 
+"Aragón", 
+"Asturias (Principado de)",
+"Cantabria", 
+"Cataluña", 
+"Castilla y León", 
+"Castilla-La Mancha",
+"Madrid (Comunidad de)", 
+"Comunitat Valencia ",
+"Extremadura",
+"Galicia",
+"Baleares (Illes)",
+"Canarias",
+"Rioja (La)",
+"Murcia (Región de)",
+"Navarra (Comunidad Foral de)",
+"País Vasco")
 ```
 
-Elaboramos un bucle para poder 
-```{r}
-for(i in seq_along(html_products)){ # Iteramos sobre los nodos de nuestro archivo xml 
-    
-    node_content <- xml_text(html_products[i]) # Extraemos la información de cada tabla 
-  
-    sinpunt <- gsub("\\.", "", node_content) # Eliminamos los puntos de los digitos
-    es <- str_extract_all(sinpunt, "\\d+") # Extraemos unicamente los números
-    num <- as.numeric(unlist(es)) # Pasamos de una string a numeric 
-    datos_luz <- list(num[num > 1000])
-    #cat(datos_luz,"\n")
-    horasLuzMedia <- lapply(datos_luz,mean)
-    ComAutom <- list(com_autom)
-    horas_luz <- data.frame(ComunidadesAutonomas = com_autom, HorasDeLuzMedia = horasLuzMedi)
-}
-horas_luz
-```
+Elaboramos un bucle para poder trabajar con la información de cada nodo XML. Finalmente, almacenamos los valores de horas de luz de cada provincia en una lista, separándolas por comunidades autónomas.
+
 ```{r}
 # Crear una lista vacía para almacenar los vectores
 lista_datos_luz <- list()
@@ -263,30 +248,37 @@ for(i in seq_along(html_products)){ # Iteramos sobre los nodos de nuestro archiv
     # Añadir datos_luz a la lista
     lista_datos_luz[[i]] <- datos_luz
 }
+```
+
+Calculamos la media de las horas de luz de cada comunidad autónoma. Para ello usaremos la función mean(). 
+```{r}
 # Calcular la media de las horas de luz de cada comunidad autonoma 
 horasLuzMedia <- list()
 for(m in 1:17){
   media <- mean(lista_datos_luz[[m]])
   horasLuzMedia[[m]] <- media
 }
-
+```
+Para poder trabajar con los datos obtenidos de la página web creamos un data frame. En una columna aparecerán los nombres de las comunidades autónomas y en la otra su media de las horas de luz correspondiente:
+```{r}
 # Crear un dataframe vacío
 horas_luz <- data.frame(ComunidadesAutonomas = character(), HorasDeLuzMedia = numeric())
 
 for(x in seq_along(horasLuzMedia)){
   # Añadir una nueva fila al dataframe
-  horas_luz <- rbind(horas_luz, data.frame(ComunidadesAutonomas = com_autom[x], HorasDeLuzMedia = horasLuzMedia[[x]]))
+  horas_luz <- rbind(horas_luz, data.frame(Comunidades.y.Ciudades.Autónomas = com_autom[x], HorasDeLuzMedia = horasLuzMedia[[x]]))
 }
 horas_luz
 ```
-
-
-
-
-
-
-
 ### _Comparación con la depresión_
+A continuación se muestra el código empleado para obtener una tabla. Donde se han cruzado los datos de las horas de luz y la información sobre el nivel de depresión en cada comunidad autónoma. 
+```{r}
+cruze <- inner_join(depresion, horas_luz, by= "Comunidades.y.Ciudades.Autónomas")
+tabla_cruzada <- cruze %>%
+  select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Media Horas De Luz"=Total.y)
+
+datatable(tabla_cruzada)
+```
 
 
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
