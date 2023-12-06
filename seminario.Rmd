@@ -263,9 +263,15 @@ for(i in seq_along(html_products)){ # Iteramos sobre los nodos de nuestro archiv
     # Añadir datos_luz a la lista
     lista_datos_luz[[i]] <- datos_luz
 }
-lista_datos_luz
-horasLuzMedia <- lapply(datos_luz,mean)
-horasLuzMedia
+# Calcular la media de las horas de luz de cada comunidad autonoma 
+horasLuzMedia <- list()
+for(m in 1:17){
+  media <- mean(lista_datos_luz[[m]])
+  horasLuzMedia[[m]] <- media
+  horas_luz <- data.frame(ComunidadesAutonomas = com_autom, HorasDeLuzMedia = horasLuzMedia[[m]])
+}
+
+horas_luz
 ```
 
 
