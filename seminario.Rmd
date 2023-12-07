@@ -208,7 +208,8 @@ ggplot(dep_sal, aes(y = `Salario`, x = `Prevalencia.Depresión`, color = `Comuni
 
 ### _Datos sobre horas de luz_
 En este caso estudiaremos el número de horas de luz que disfruta cada provincia en España al año. Los datos los tenemos agrupados por provincias, por lo que hemos de cambiarlo a Comunidades Autónomas.
-Esta información procede de una página web. Para poder trabajar con los datos usaremos la librería rvest. 
+Esta información procede de una página web. 
+Para poder trabajar con los datos usaremos las siguiente librerias. 
 ```{r,eval=TRUE, echo=TRUE}
  library(rvest)
  library(XML)
@@ -246,7 +247,8 @@ com_autom <- c("Andalucía",
 "País Vasco")
 ```
 
-Elaboramos un bucle para poder trabajar con la información de cada nodo XML. Finalmente, almacenamos los valores de horas de luz de cada provincia en una lista, separándolas por comunidades autónomas.
+Elaboramos un bucle para poder trabajar con la información de cada nodo XML. 
+Finalmente, almacenamos los valores de horas de luz de cada provincia en una lista, separándolas por comunidades autónomas.
 
 ```{r}
 # Crear una lista vacía para almacenar los vectores
@@ -307,7 +309,7 @@ ggplot(data = cruze) +
   geom_bar(stat = "identity",
            mapping = aes(x = Total, y = HorasDeLuzMedia,fill = `Comunidades.y.Ciudades.Autónomas`)) +
   labs(title = "Prevalencia depresión vs Meida Horas de Luz", x = "Prevalencia de Depresión", y = "Media Horas de luz") +
-  theme_minimal()
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
