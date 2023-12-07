@@ -146,7 +146,7 @@ for (i in a){
 }
 
 tabla_salarios <- tabla_salarios %>%
-  separate( Nombres, into = c("Tot", "Comunidades.y.Ciudades.Autónomas","base","decil", "Salario medio"), sep = "\\.")%>%
+  separate(Nombres, into = c("Tot", "Comunidades.y.Ciudades.Autónomas","base","decil", "Salario medio"), sep = "\\.")%>%
   select(Comunidades.y.Ciudades.Autónomas, Salario)
 
 tabla_salarios$Comunidades.y.Ciudades.Autónomas[1] <- "Media Nacional"
@@ -156,35 +156,10 @@ datatable(tabla_salarios)
 
 ### _Comparación con la depresión_
 ```{r, eval=FALSE, echo=TRUE}
-library(dplyr)
-library(DT)
-depresion <- 
-  depresion %>%
-  mutate(Factores= factor(Comunidades.y.Ciudades.Autónomas))
+dep_sal <- data.frame("Comunidades Autónomas" = depresion$Comunidades.y.Ciudades.Autónomas, "Prevalencia Depresión" = depresion$Total, "Salario" = tabla_salarios$Salario)
 
-depresion$Factores
-factor(tabla_salarios$Comunidades.y.Ciudades.Autónomas)
-factores_comunes <- levels(depresion$Factores)
-
-
-nuevo_salario<- 
-  tabla_salarios%>%
-  mutate(Comunidades.y.Ciudades.Autónomas = factor(Comunidades.y.Ciudades.Autónomas, levels=c("Media Nacional"="Media Nacional","Andalucía"="Andalucía","Aragón"="Aragón", "Asturias, Principado de"="Asturias (Principado de)","Balears, Illes"="Balears (Illes)","Canarias"="Canarias", "Cantabria" ="Cantabria","Castilla y León"="Castilla y León","Castilla - La Mancha"="Castilla-La Mancha","Cataluña"="Cataluña","Comunitat Valenciana"="Comunitat Valenciana","Extremadura"="Extremadura", "Galicia"="Galicia", "Madrid, Comunidad de"= "Madrid (Comunidad de)","Murcia, Región de"="Murcia (Región de)", "Navarra, Comunidad Foral de"= "Navarra (Comunidad Foral de)","País Vasco"="País Vasco", "Rioja, La"="Rioja (La)", "Ceuta"="Ceuta (Ciudad Autónoma de)","Melilla"="Melilla (Ciudad Autónoma de)")))
-datatable(nuevo_salario)
-
-datatable(comparacion_2)
-tabla_final <- comparacion %>%
-  select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Salario"=Total.y)
-datatable(tabla_final)
-
-``` 
-```{r, eval=TRUE, echo=TRUE}
-combi<-merge(tabla_salarios, depresion, by="Comunidades.y.Ciudades.Autónomas", all=TRUE)
-combi%>%
-  select(Total.x,Total.y)
-datatable(combi)
+datatable(dep_sal)
 ```
-
 
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
 
