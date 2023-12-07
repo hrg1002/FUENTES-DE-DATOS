@@ -71,7 +71,8 @@ datatable(alcohol)
 ```
 
 ### _Comparación con la depresión_
-  Para poder comparar los datos y sacar conclusiones, hemos de cruzar las tablas y obtener una gráfica que nos permita observar la relación existente entre ambos factores. Para ello realizaremos el siguiente código:
+  Para poder comparar los datos y sacar conclusiones, hemos de cruzar las tablas y obtener una gráfica que nos permita observar la relación existente entre ambos factores. 
+  Para ello realizaremos el siguiente código donde seleccionamos como atributo común las distintas Comunidades Autónomas y sus respectivos datos tanto de consumo de alcohol como de prevalencia de depresión
 ```{r, eval=TRUE, echo=TRUE}
 comparacion<-inner_join(depresion, alcohol, by= "Comunidades.y.Ciudades.Autónomas")
 tabla_final <- comparacion %>%
@@ -80,7 +81,12 @@ tabla_final <- comparacion %>%
 datatable(tabla_final)
 ```  
 
-  Tras hallar la tabla realizada a través de un join para visualizar de forma más clara los datos unidos por las comunidades autónomas, procedemos a representar visualmente dichos datos de forma que nos permita ver realmente la relación entre ambas variables.
+```{r, eval=FALSE, echo=TRUE}
+dep_alc <- data.frame("Comunidades Autónomas" = depresion$Comunidades.y.Ciudades.Autónomas, "Prevalencia Depresión" = depresion$Total, "Alcohol" = alcohol$Total)
+datatable(dep_alc)
+
+```
+  Tras hallar la tabla realizada a través de un join para visualizar de forma más clara los datos unidos, procedemos a representar visualmente dichos datos de forma que nos permita ver realmente la relación entre ambas variables.
   
   Para ello lo primero que hacemos es importar la librería que necesitamos para los gráficos.
   
@@ -91,11 +97,13 @@ library(ggplot2)
 
   A continuación, el código junto a los resultados:
 ```{r, eval=TRUE, echo=TRUE}
-ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, fill = `Comunidades Autónomas`)) +
+ggplot(dep_alc, aes(y = `Alcohol`, x = `Prevalencia.Depresión`, fill = `Comunidades.Autónomas`)) +
   geom_col(position = "dodge") + 
-  labs(title = "Consumo de Alcohol vs Prevalencia de Depresión", y = "Consumo de Alcohol", x = "Prevalencia de Depresión") +
+  labs(title = "Salario medio vs Prevalencia de Depresión", y = "Consumo Alcohol", x = "Prevalencia de Depresión") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   coord_flip()
+
+
 
 ```
 
@@ -104,11 +112,11 @@ ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, fil
 ```{r, eval=TRUE, echo=TRUE}
 # Graficar los mismos datos como un gráfico de puntos
 
-ggplot(tabla_final, aes(y = `Consumo Alcohol`, x = `Prevalencia Depresión`, color = `Comunidades Autónomas`)) +
+ggplot(dep_alc, aes(y = `Alcohol`, x = `Prevalencia.Depresión`, color = `Comunidades.Autónomas`)) +
   geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
   labs(y = "Consumo de Alcohol", x = "Prevalencia de Depresión") +
 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   coord_flip()
 
 ```
@@ -134,7 +142,7 @@ library(knitr)
 ```{r,eval=TRUE, echo=TRUE}
 ruta_archivo<-"INPUT/DATA/salarios.json"
 ```
-  Datos salario
+  Extraemos los datos de los salarios mediante un bucle donde solamente nos quedamos con la parte del atributo donde vienen los nombres de las Comunidades Autónomas, ya que en los datos en crudo los nombres no vienen como tal:
 ```{r,eval=TRUE, echo=TRUE}
 salarios<-fromJSON(ruta_archivo)
 tabla_salarios <- data.frame(Nombres = character(), Total = numeric())
@@ -155,13 +163,46 @@ datatable(tabla_salarios)
 
 
 ### _Comparación con la depresión_
+De nuevo, antes de visualizar el gráfico procedemos a unir los datos que queremos comparar en una sola tabla con el nombre de las Comunidades como atributo común a la tabla de Depresión y a la correspondiente al Salario.
 ```{r, eval=FALSE, echo=TRUE}
 dep_sal <- data.frame("Comunidades Autónomas" = depresion$Comunidades.y.Ciudades.Autónomas, "Prevalencia Depresión" = depresion$Total, "Salario" = tabla_salarios$Salario)
 
 datatable(dep_sal)
 ```
 
+```{r,eval=TRUE, echo=TRUE}
+
+ggplot(dep_sal, aes(y = `Salario`, x = `Prevalencia.Depresión`, fill = `Comunidades.Autónomas`)) +
+  geom_col(position = "dodge") + 
+  labs(title = "Salario medio vs Prevalencia de Depresión", y = "Salario", x = "Prevalencia de Depresión") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  coord_flip()
+
+
+```
+Ahora realizamos un gráfico para ver la relación de R
+```{r, eval=TRUE, echo=TRUE}
+# Graficar los mismos datos como un gráfico de puntos
+
+ggplot(dep_sal, aes(y = `Salario`, x = `Prevalencia.Depresión`, color = `Comunidades.Autónomas`)) +
+  geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
+  labs(y = "Salario", x = "Prevalencia de Depresión") +
+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  coord_flip()
+
+```
+
+
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
+
+
+
+
+
+
+
+
 
 ## __Horas de luz__
 
