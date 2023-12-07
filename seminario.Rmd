@@ -235,10 +235,10 @@ com_autom <- c("Andalucía",
 "Castilla y León", 
 "Castilla-La Mancha",
 "Madrid (Comunidad de)", 
-"Comunitat Valencia ",
+"Comunitat Valenciana",
 "Extremadura",
 "Galicia",
-"Baleares (Illes)",
+"Balears (Illes)",
 "Canarias",
 "Rioja (La)",
 "Murcia (Región de)",
@@ -290,10 +290,24 @@ horas_luz
 A continuación se muestra el código empleado para obtener una tabla. Donde se han cruzado los datos de las horas de luz y la información sobre el nivel de depresión en cada comunidad autónoma. 
 ```{r}
 cruze <- inner_join(depresion, horas_luz, by= "Comunidades.y.Ciudades.Autónomas")
-tabla_cruzada <- cruze %>%
-  select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Media Horas De Luz"=Total.y)
+cruze
+```
+A partir de la tabla cruzada, creamos un gráfico de dispersión para observar su relación: 
+```{r}
+ggplot(cruze, aes(x = `Total`, y = `HorasDeLuzMedia`, color = `Comunidades.y.Ciudades.Autónomas`)) +
+  geom_point(size = 3) +
+  labs(x = "Prevalencia de Depresión", y = "Media Horas de luz") +
 
-datatable(tabla_cruzada)
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  coord_flip()
+```
+Para tener otra perspectiva vamos a crear un gráfico de barras: 
+```{r}
+ggplot(data = cruze) +
+  geom_bar(stat = "identity",
+           mapping = aes(x = Total, y = HorasDeLuzMedia,fill = `Comunidades.y.Ciudades.Autónomas`)) +
+  labs(title = "Prevalencia depresión vs Meida Horas de Luz", x = "Prevalencia de Depresión", y = "Media Horas de luz") +
+  theme_minimal()
 ```
 
 
