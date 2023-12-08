@@ -103,8 +103,6 @@ ggplot(dep_alc, aes(y = `Alcohol`, x = `Prevalencia.Depresión`, fill = `Comunid
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   coord_flip()
 
-
-
 ```
 
   Graficamos los mismos datos mediante un gráfico de puntos o dispersión para ver la R cuadrada
