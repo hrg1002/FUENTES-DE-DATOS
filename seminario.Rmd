@@ -206,7 +206,8 @@ ggplot(dep_sal, aes(y = `Salario`, x = `Prevalencia.Depresión`, color = `Comuni
 
 ### _Datos sobre horas de luz_
 En este caso estudiaremos el número de horas de luz que disfruta cada provincia en España al año. Los datos los tenemos agrupados por provincias, por lo que hemos de cambiarlo a Comunidades Autónomas.
-Esta información procede de una página web. Para poder trabajar con los datos usaremos la librería rvest. 
+Esta información procede de una página web. 
+Para poder trabajar con los datos usaremos las siguiente librerias. 
 ```{r,eval=TRUE, echo=TRUE}
  library(rvest)
  library(XML)
@@ -233,10 +234,10 @@ com_autom <- c("Andalucía",
 "Castilla y León", 
 "Castilla-La Mancha",
 "Madrid (Comunidad de)", 
-"Comunitat Valencia ",
+"Comunitat Valenciana",
 "Extremadura",
 "Galicia",
-"Baleares (Illes)",
+"Balears (Illes)",
 "Canarias",
 "Rioja (La)",
 "Murcia (Región de)",
@@ -244,7 +245,8 @@ com_autom <- c("Andalucía",
 "País Vasco")
 ```
 
-Elaboramos un bucle para poder trabajar con la información de cada nodo XML. Finalmente, almacenamos los valores de horas de luz de cada provincia en una lista, separándolas por comunidades autónomas.
+Elaboramos un bucle para poder trabajar con la información de cada nodo XML. 
+Finalmente, almacenamos los valores de horas de luz de cada provincia en una lista, separándolas por comunidades autónomas.
 
 ```{r}
 # Crear una lista vacía para almacenar los vectores
@@ -288,10 +290,24 @@ horas_luz
 A continuación se muestra el código empleado para obtener una tabla. Donde se han cruzado los datos de las horas de luz y la información sobre el nivel de depresión en cada comunidad autónoma. 
 ```{r}
 cruze <- inner_join(depresion, horas_luz, by= "Comunidades.y.Ciudades.Autónomas")
-tabla_cruzada <- cruze %>%
-  select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Media Horas De Luz"=Total.y)
+cruze
+```
+A partir de la tabla cruzada, creamos un gráfico de dispersión para observar su relación: 
+```{r}
+ggplot(cruze, aes(x = `Total`, y = `HorasDeLuzMedia`, color = `Comunidades.y.Ciudades.Autónomas`)) +
+  geom_point(size = 3) +
+  labs(x = "Prevalencia de Depresión", y = "Media Horas de luz") +
 
-datatable(tabla_cruzada)
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  coord_flip()
+```
+Para tener otra perspectiva vamos a crear un gráfico de barras: 
+```{r}
+ggplot(data = cruze) +
+  geom_bar(stat = "identity",
+           mapping = aes(x = Total, y = HorasDeLuzMedia,fill = `Comunidades.y.Ciudades.Autónomas`)) +
+  labs(title = "Prevalencia depresión vs Meida Horas de Luz", x = "Prevalencia de Depresión", y = "Media Horas de luz") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
