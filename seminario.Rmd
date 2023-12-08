@@ -81,7 +81,7 @@ tabla_final <- comparacion %>%
 datatable(tabla_final)
 ```  
 
-```{r, eval=FALSE, echo=TRUE}
+```{r, eval=TRUE, echo=TRUE}
 dep_alc <- data.frame("Comunidades Autónomas" = depresion$Comunidades.y.Ciudades.Autónomas, "Prevalencia Depresión" = depresion$Total, "Alcohol" = alcohol$Total)
 datatable(dep_alc)
 
@@ -162,7 +162,7 @@ datatable(tabla_salarios)
 
 ### _Comparación con la depresión_
 De nuevo, antes de visualizar el gráfico procedemos a unir los datos que queremos comparar en una sola tabla con el nombre de las Comunidades como atributo común a la tabla de Depresión y a la correspondiente al Salario.
-```{r, eval=FALSE, echo=TRUE}
+```{r, eval=TRUE, echo=TRUE}
 dep_sal <- data.frame("Comunidades Autónomas" = depresion$Comunidades.y.Ciudades.Autónomas, "Prevalencia Depresión" = depresion$Total, "Salario" = tabla_salarios$Salario)
 
 datatable(dep_sal)
@@ -193,7 +193,7 @@ ggplot(dep_sal, aes(y = `Salario`, x = `Prevalencia.Depresión`, color = `Comuni
 
 
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
-
+  Observando el resultado no podemos concluir con certeza que la tasa de depresión se vea afectada por la cantidad de dinero que se gana al mes. Si bien vemos que en las tres comunidades donde mayor es el salario la prevalencia de depresión es relativamente baja, en el siguiente caso de mayors sueldo, Cataluña, vemos un repunte en este factor, por lo que seguramente podamos concluir que se debe a otros muchos factores no tanto que ver con la renta de cada individuo. 
 
 
 
@@ -306,7 +306,7 @@ Para tener otra perspectiva vamos a crear un gráfico de barras:
 ggplot(data = cruze) +
   geom_bar(stat = "identity",
            mapping = aes(x = Total, y = HorasDeLuzMedia,fill = `Comunidades.y.Ciudades.Autónomas`)) +
-  labs(title = "Prevalencia depresión vs Meida Horas de Luz", x = "Prevalencia de Depresión", y = "Media Horas de luz") +
+  labs(title = "Prevalencia depresión vs Media Horas de Luz", x = "Prevalencia de Depresión", y = "Media Horas de luz") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
