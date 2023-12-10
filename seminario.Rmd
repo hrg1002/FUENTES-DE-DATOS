@@ -98,7 +98,7 @@ library(ggplot2)
 ```{r, eval=TRUE, echo=TRUE}
 ggplot(dep_alc, aes(y = `Alcohol`, x = `Prevalencia.Depresión`, fill = `Comunidades.Autónomas`)) +
   geom_col(position = "dodge") + 
-  labs(title = "Salario medio vs Prevalencia de Depresión", y = "Consumo Alcohol", x = "Prevalencia de Depresión") +
+  labs(title = "Consumo de añcohol vs Prevalencia de Depresión", y = "Consumo Alcohol", x = "Prevalencia de Depresión") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   coord_flip()
 
@@ -310,7 +310,7 @@ ggplot(data = cruze) +
 
 
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
-Hay un caso que llama la atención y sería el de Asturias, donde sí que observamos que tiene el mayor índice de depresión siendo una de las Comunidades Autónomas con menor número de horas al año, lo cual nos puede servir para sacar conclusiones, si bien vemos que en Andalucía por el contrario disfrutan de una mayor luz, y sin embargo la tasa de depresión es de las más altas, lo que puede deberse también a otros factores sociales, económicos, etc., aunque sin descartar la teoría de la relación entre la oscuridad y lel padecimiento de depresión. <br>
+Hay un caso que llama la atención y sería el de Asturias, donde sí que observamos que tiene el mayor índice de depresión siendo una de las Comunidades Autónomas con menor número de horas al año, lo cual nos puede servir para sacar conclusiones.Andalucía, por el contrario disfrutan de una mayor luz, y sin embargo la tasa de depresión es de las más altas, lo que puede deberse también a otros factores sociales, económicos, etc...Sin descartar la teoría de la relación entre la excasez de luz solar y el padecimiento de depresión. <br>
 En Cantabria también vemos que en menor medida se cumple este supuesto. 
 
 # __Conclusión__
