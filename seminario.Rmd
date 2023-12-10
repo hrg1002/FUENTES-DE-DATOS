@@ -269,7 +269,7 @@ Calculamos la media de las horas de luz de cada comunidad autónoma. Para ello u
 # Calculo la media de las horas de luz de cada comunidad autonoma 
 horasLuzMedia <- list()
 for(m in 1:17){
-  media <- mean(lista_datos_luz[[m]])
+  media <- round(mean(lista_datos_luz[[m]]), digits = 2)
   horasLuzMedia[[m]] <- media
 }
 ```
@@ -282,7 +282,7 @@ for(x in seq_along(horasLuzMedia)){
   # Añado una nueva fila al dataframe
   horas_luz <- rbind(horas_luz, data.frame(Comunidades.y.Ciudades.Autónomas = com_autom[x], HorasDeLuzMedia = horasLuzMedia[[x]]))
 }
-horas_luz
+datatable(horas_luz)
 ```
 ### _Comparación con la depresión_
 A continuación se muestra el código empleado para obtener una tabla. Donde se han cruzado los datos de las horas de luz y la información sobre el nivel de depresión en cada comunidad autónoma. 
@@ -293,7 +293,7 @@ cruze
 A partir de la tabla cruzada, creamos un gráfico de dispersión para observar su relación: 
 ```{r}
 ggplot(cruze, aes(x = `Total`, y = `HorasDeLuzMedia`, color = `Comunidades.y.Ciudades.Autónomas`)) +
-  geom_point(size = 3) +
+  geom_point(size = 3 ) +
   labs(x = "Prevalencia de Depresión", y = "Media Horas de luz") +
   scale_y_continuous(trans="reverse") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
