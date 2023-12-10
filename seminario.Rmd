@@ -288,7 +288,7 @@ datatable(horas_luz)
 A continuación se muestra el código empleado para obtener una tabla. Donde se han cruzado los datos de las horas de luz y la información sobre el nivel de depresión en cada comunidad autónoma. 
 ```{r}
 cruze <- inner_join(depresion, horas_luz, by= "Comunidades.y.Ciudades.Autónomas")
-cruze
+datatable(cruze)
 ```
 A partir de la tabla cruzada, creamos un gráfico de dispersión para observar su relación: 
 ```{r}
