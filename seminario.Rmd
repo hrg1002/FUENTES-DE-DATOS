@@ -78,7 +78,6 @@ comparacion<-inner_join(depresion, alcohol, by= "Comunidades.y.Ciudades.Autónom
 tabla_final <- comparacion %>%
   select("Comunidades Autónomas"="Comunidades.y.Ciudades.Autónomas", "Prevalencia Depresión"=Total.x, "Consumo Alcohol"=Total.y)
 
-datatable(tabla_final)
 ```  
 
 ```{r, eval=TRUE, echo=TRUE}
@@ -105,7 +104,7 @@ ggplot(dep_alc, aes(y = `Alcohol`, x = `Prevalencia.Depresión`, fill = `Comunid
 
 ```
 
-  Graficamos los mismos datos mediante un gráfico de puntos o dispersión para ver la R cuadrada
+  Graficamos los mismos datos mediante un gráfico de puntos o dispersión para ver la correlación
 
 ```{r, eval=TRUE, echo=TRUE}
 # Graficar los mismos datos como un gráfico de puntos
@@ -121,7 +120,7 @@ ggplot(dep_alc, aes(y = `Alcohol`, x = `Prevalencia.Depresión`, color = `Comuni
   
 
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span>  
-  En base a los resultados obtenidos, podemos concluir que el alcohol no sería una razón de peso que afecte a la revalencia de depresión a nivel de cuadro depresivo mayor, puesto que: <br>
+  En base a los resultados obtenidos, podemos concluir que el alcohol no sería una razón de peso que afecte a la prevalencia de depresión a nivel de cuadro depresivo mayor, puesto que: <br>
 - En el primer gráfico, no vemos una relación clara entre ambas variables. Por ejemplo en la Comunidad de Andalucía la prevalencia de depresión es la segunda más alta y sin embargo el consumo de alcohol en base a la medición con la que se analiza es la más baja, con lo cual claramente no podemos afirmar que sea una relación directa. Se puede deber a otros factores que analizaremos a continuación <br>
 - En el gráfico de dispersión se nos confirma que no sigue una línea más o menos recta y no tiene validez pues el R cuadrado no tiene el valor que esperaríamos para poder afirmar la relación
 
@@ -178,12 +177,10 @@ ggplot(dep_sal, aes(y = `Salario`, x = `Prevalencia.Depresión`, fill = `Comunid
 
 
 ```
-Ahora realizamos un gráfico para ver la relación de R
+Ahora realizamos un gráfico para ver la correlación entre estos dos factores:
 ```{r, eval=TRUE, echo=TRUE}
-# Graficar los mismos datos como un gráfico de puntos
-
 ggplot(dep_sal, aes(y = `Salario`, x = `Prevalencia.Depresión`, color = `Comunidades.Autónomas`)) +
-  geom_point(size = 3) +  # Utilizamos geom_point para gráfico de puntos
+  geom_point(size = 3) +  
   labs(y = "Salario", x = "Prevalencia de Depresión") +
 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
@@ -203,6 +200,7 @@ ggplot(dep_sal, aes(y = `Salario`, x = `Prevalencia.Depresión`, color = `Comuni
 
 
 ## __Horas de luz__
+Según algunos estudios, la depresión estacional puede aparecer debido a la respuesta del cerebro a la disminución de las horas de luz solar. La luz solar afecta a dos sustancias químicas cerebrales: la melatonina y la serotonina. Estas sustancias ayudan a regular los ciclos de sueño-vigilia, la energía y el estado de ánimo. Si la luz solar en nuestra vida se ve reducida, esto provoca una caída en los niveles de serotonina y por ende, más propensión a padecer ciertas enfermedades mentales.<br>
 
 ### _Datos sobre horas de luz_
 En este caso estudiaremos el número de horas de luz que disfruta cada provincia en España al año. Los datos los tenemos agrupados por provincias, por lo que hemos de cambiarlo a Comunidades Autónomas.
@@ -249,7 +247,7 @@ Elaboramos un bucle para poder trabajar con la información de cada nodo XML.
 Finalmente, almacenamos los valores de horas de luz de cada provincia en una lista, separándolas por comunidades autónomas.
 
 ```{r}
-# Crear una lista vacía para almacenar los vectores
+# Creamos una lista vacía para almacenar los vectores
 lista_datos_luz <- list()
 
 for(i in seq_along(html_products)){ # Iteramos sobre los nodos de nuestro archivo xml 
@@ -261,14 +259,14 @@ for(i in seq_along(html_products)){ # Iteramos sobre los nodos de nuestro archiv
     num <- as.numeric(unlist(es)) # Pasamos de una string a numeric 
     datos_luz <- num[num > 1000]
     
-    # Añadir datos_luz a la lista
+    # Añado datos_luz a la lista
     lista_datos_luz[[i]] <- datos_luz
 }
 ```
 
 Calculamos la media de las horas de luz de cada comunidad autónoma. Para ello usaremos la función mean(). 
 ```{r}
-# Calcular la media de las horas de luz de cada comunidad autonoma 
+# Calculo la media de las horas de luz de cada comunidad autonoma 
 horasLuzMedia <- list()
 for(m in 1:17){
   media <- mean(lista_datos_luz[[m]])
@@ -277,11 +275,11 @@ for(m in 1:17){
 ```
 Para poder trabajar con los datos obtenidos de la página web creamos un data frame. En una columna aparecerán los nombres de las comunidades autónomas y en la otra su media de las horas de luz correspondiente:
 ```{r}
-# Crear un dataframe vacío
+# Creo un dataframe vacío
 horas_luz <- data.frame(ComunidadesAutonomas = character(), HorasDeLuzMedia = numeric())
 
 for(x in seq_along(horasLuzMedia)){
-  # Añadir una nueva fila al dataframe
+  # Añado una nueva fila al dataframe
   horas_luz <- rbind(horas_luz, data.frame(Comunidades.y.Ciudades.Autónomas = com_autom[x], HorasDeLuzMedia = horasLuzMedia[[x]]))
 }
 horas_luz
@@ -297,11 +295,11 @@ A partir de la tabla cruzada, creamos un gráfico de dispersión para observar s
 ggplot(cruze, aes(x = `Total`, y = `HorasDeLuzMedia`, color = `Comunidades.y.Ciudades.Autónomas`)) +
   geom_point(size = 3) +
   labs(x = "Prevalencia de Depresión", y = "Media Horas de luz") +
-
+  scale_y_continuous(trans="reverse") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   coord_flip()
 ```
-Para tener otra perspectiva vamos a crear un gráfico de barras: 
+<br> Para tener otra perspectiva vamos a crear un gráfico de barras: 
 ```{r}
 ggplot(data = cruze) +
   geom_bar(stat = "identity",
@@ -312,11 +310,13 @@ ggplot(data = cruze) +
 
 
 ### <span style='background-color: lightgreen; padding: 3px;'>_Análisis breve_</span> 
+Hay un caso que llama la atención y sería el de Asturias, donde sí que observamos que tiene el mayor índice de depresión siendo una de las Comunidades Autónomas con menor número de horas al año, lo cual nos puede servir para sacar conclusiones, si bien vemos que en Andalucía por el contrario disfrutan de una mayor luz, y sin embargo la tasa de depresión es de las más altas, lo que puede deberse también a otros factores sociales, económicos, etc., aunque sin descartar la teoría de la relación entre la oscuridad y lel padecimiento de depresión. <br>
+En Cantabria también vemos que en menor medida se cumple este supuesto. 
 
 # __Conclusión__
-
-
-
+A lo largo de nuestro estudio hemos ido comparando las variables que pensábamos que tendrían una cierta relación con la tasa de depresión por comunidades autónomas, creyendo que hay ciertos factores distintos entre ellas que hacen que por eso la tasa también sea distinta.<br>
+En las tres comparaciones no hemos podido sacar una conclusión sólida de que haya la relación que esperábamos, aunque se puede deber a muchos factores, entre ellos el enfoque del estudio de la depresión, pues lo hemos realizado en base al cuadro depresivo, y existen otros cuadros más leves pero que también podrían estar relacionados con estos factores y no han sido incluidos en este estudio. <br>
+Aún así, pese a los resultados, son factores que por sí solos afectan indudablemente al estado de ánimo y que por diferentes circunstancias podrán dar lugar a un desarrollo de las enfermedades mentales que hoy en día son cada vez más comunes y que hemos de afrontar.
 
 
 
